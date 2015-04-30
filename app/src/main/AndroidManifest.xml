@@ -20,21 +20,20 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:name=".Giver"
+            android:label="@string/app_name"
+            android:parentActivityName=".Splash" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Splash" />
         </activity>
         <activity
             android:name=".CardActivity"
             android:label="@string/title_activity_card"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".Giver" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.tyelford.cardkeeper.MainActivity" />
+                android:value=".Giver" />
         </activity>
         <activity
             android:name=".FullScreenCard"
@@ -43,6 +42,24 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.tyelford.cardkeeper.CardActivity" />
+        </activity>
+        <activity
+            android:name=".Splash"
+            android:label="@string/title_activity_splash" >
+            <intent-filter>
+t
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".PersonActivity"
+            android:label="@string/title_activity_person"
+            android:parentActivityName=".Splash" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.tyelford.cardkeeper.Splash" />
         </activity>
     </application>
 

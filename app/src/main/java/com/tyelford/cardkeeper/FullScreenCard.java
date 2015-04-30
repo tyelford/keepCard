@@ -17,7 +17,7 @@ public class FullScreenCard extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_screen_card);
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
 
@@ -40,12 +40,25 @@ public class FullScreenCard extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+
+        switch(item.getItemId()){
+            //Up button pressed in ActionBar
+            case android.R.id.home:
+                //Can add info to push back here
+                //Intent intent = new Intent();
+                //intent.putExtra();
+                setResult(RESULT_OK, null);
+                finish();
+
         }
+
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }

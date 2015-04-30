@@ -1,7 +1,6 @@
 package com.tyelford.cardkeeper;
 
 import android.app.ListActivity;
-import android.support.v7.app.ActionBarActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,7 +15,7 @@ import com.tyelford.cardkeeper.data.CardData;
 import java.util.List;
 
 
-public class MainActivity extends ListActivity {
+public class Giver extends ListActivity {
 
 
     List<Card> cards = new CardData().getCards();
@@ -24,12 +23,10 @@ public class MainActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_giver);
 
         ArrayAdapter<Card> adapter = new ArrayAdapter<Card>(this, android.R.layout.simple_list_item_1, cards);
         setListAdapter(adapter);
-
-
     }
 
 

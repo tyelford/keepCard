@@ -17,6 +17,7 @@ public class CardActivity extends Activity {
 
     private String cardGiver;
     private int cardFrontImgRes;
+    private static final int REQUEST_CODE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +25,7 @@ public class CardActivity extends Activity {
         setContentView(R.layout.activity_card);
 
         //Set Backup button on Action Bar
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
 
@@ -72,19 +73,38 @@ public class CardActivity extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+
+        switch(item.getItemId()){
+            case android.R.id.home:
+                finish();
         }
+
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
 
+    //Open the full screen card
     public void openFullScreen(View view){
         Intent intent = new Intent(this, FullScreenCard.class);
         intent.putExtra("cardImageRes", cardFrontImgRes);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CODE);
+    }
+
+    //Return from the full screen card
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
+            //Get some databack if needed
+
+        }
     }
 }
