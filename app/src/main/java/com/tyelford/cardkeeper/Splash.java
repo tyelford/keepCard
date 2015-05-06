@@ -2,11 +2,15 @@ package com.tyelford.cardkeeper;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import com.tyelford.cardkeeper.data.CardDBHelper;
 
 
 public class Splash extends Activity {
@@ -15,6 +19,14 @@ public class Splash extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        //Lock the screen in portrait mode
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+
+
+        //Do a database test
+       // CardDBHelper dbHelper = new CardDBHelper(getContext());
     }
 
 
@@ -48,6 +60,11 @@ public class Splash extends Activity {
 
     public void loadPersons(View view){
         Intent intent = new Intent(this, PersonActivity.class);
+        startActivity(intent);
+    }
+
+    public void loadNewCard(View view){
+        Intent intent = new Intent(this, AddCardActivity.class);
         startActivity(intent);
     }
 }

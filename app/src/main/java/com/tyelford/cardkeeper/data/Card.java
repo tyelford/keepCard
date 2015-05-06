@@ -6,12 +6,16 @@ package com.tyelford.cardkeeper.data;
  */
 public class Card {
     public String cardGiver;
-    public int cardFrontImgRes;
+    public int cardFrontImgRes;  //Change all photos to String for a path to the file stored on disk
     public int cardInsideLeftImgRes;
     public int cardInsideRightImgRes;
     public int cardBackImgRes;
     public String cardComments;
     public String incPresent;
+
+    public Card(){
+
+    }
 
     //Constructor to create a card
     public Card(String cardGiver, int cardFrontImgRes, int cardInsideLeftImgRes, int cardInsideRightImgRes, int cardBackImgRes, String cardComments, String incPresent){
@@ -29,4 +33,5 @@ public class Card {
     public String toString() {
         return cardGiver;
     }
+
 }
