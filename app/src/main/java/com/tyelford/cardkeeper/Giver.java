@@ -61,15 +61,15 @@ public class Giver extends ListActivity {
         super.onListItemClick(l, v, position, id);
 
         Card card = cards.get(position);
-
+//
         Intent intent = new Intent(this, CardActivity.class);
-        intent.putExtra("cardGiver", card.cardGiver);
-        intent.putExtra("cardFrontImgRes", card.cardFrontImgRes);
-        intent.putExtra("cardInsideLeftImgRes", card.cardInsideLeftImgRes);
-        intent.putExtra("cardInsideRightImgRes", card.cardInsideRightImgRes);
-        intent.putExtra("cardBackImgRes", card.cardBackImgRes);
-        intent.putExtra("cardComments", card.cardComments);
-        intent.putExtra("incPresent", card.incPresent);
+//        intent.putExtra("cardGiver", card.cardGiver);
+//        intent.putExtra("cardFrontImgRes", card.cardFrontImgRes);
+//        intent.putExtra("cardInsideLeftImgRes", card.cardInsideLeftImgRes);
+//        intent.putExtra("cardInsideRightImgRes", card.cardInsideRightImgRes);
+//        intent.putExtra("cardBackImgRes", card.cardBackImgRes);
+//        intent.putExtra("cardComments", card.cardComments);
+//        intent.putExtra("incPresent", card.incPresent);
         startActivity(intent);
 
     }

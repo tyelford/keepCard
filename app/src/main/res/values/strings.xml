@@ -8,4 +8,7 @@
     <string name="title_activity_splash">Splash</string>
     <string name="title_activity_person">PersonActivity</string>
     <string name="title_activity_add_card">AddCardActivity</string>
+    <string name="commentsHint">Notes on this Card</string>
+    <string name="giverHint">Who gave it to you?</string>
+    <string name="addPresent">Add a present?</string>
 </resources>

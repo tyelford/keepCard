@@ -33,36 +33,50 @@ public class CardDBHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public void getCard(int id){
+    public Card getCard(int id){
         //Get a reference to the readable DB
         SQLiteDatabase db = this.getReadableDatabase();
 
         //build query
-        Cursor cursor = db.query(CardTable.TABLE_NAME, CardTable.COLUMNS, "id = ?", new String[] {String.valueOf(id)}, null, null, null, null);
-
+        //Cursor cursor = db.query(CardTable.TABLE_NAME, CardTable.COLUMNS, "id = ?", new String[] {String.valueOf(id)}, null, null, null, null);
+        Cursor cursor = db.rawQuery(SQL_SELECT_ALL_COLUMNS + " where card_id = ? ", new String[]{Integer.toString(id)});
         if(cursor != null){
             cursor.moveToFirst();
         }
 
+        //Load up the card into a Card Object
         Card card = new Card();
+        card.setCardID(cursor.getString(0));
+        card.setCardGiver(cursor.getString(1));
+        card.setCardFrontImg(cursor.getString(2));
+        card.setCardInLeftImg(cursor.getString(3));
+        card.setCardInRightImg(cursor.getString(4));
+        card.setPresentImg(cursor.getString(5));
+        card.setPresentComments(cursor.getString(6));
+        card.setOccasion(new Occasion());
+        card.setAddGivers(cursor.getString(8));
+
+        return card;
 
     }
 
-    public void insertCard(){
+    public void insertCard(Card card){
         //Get a reference to the database
         SQLiteDatabase db = this.getWritableDatabase();
 
+        //Increment to the next available card
+
         //create the content values to add
         ContentValues values = new ContentValues();
-        values.put(CardTable.COLUMN_NAME_CARD_ID, "1");
-        values.put(CardTable.COLUMN_NAME_GIVER, "Database Giver");
-        values.put(CardTable.COLUMN_NAME_P_FRONT, "");
-        values.put(CardTable.COLUMN_NAME_P_IN_LEFT, "");
-        values.put(CardTable.COLUMN_NAME_P_IN_RIGHT, "");
-        values.put(CardTable.COLUMN_NAME_P_PRES, "");
+        values.put(CardTable.COLUMN_NAME_CARD_ID, "2");
+        values.put(CardTable.COLUMN_NAME_GIVER, card.getCardGiver());
+        values.put(CardTable.COLUMN_NAME_P_FRONT, card.getCardFrontImg());
+        values.put(CardTable.COLUMN_NAME_P_IN_LEFT, card.getCardInLeftImg());
+        values.put(CardTable.COLUMN_NAME_P_IN_RIGHT, card.getCardInRightImg());
+        values.put(CardTable.COLUMN_NAME_P_PRES, card.getPresentImg());
         values.put(CardTable.COLUMN_NAME_C_PRES, "");
-        values.put(CardTable.COLUMN_NAME_OCC_ID, "Birthday");
-        values.put(CardTable.COLUMN_NAME_ADD_GIVERS, "");
+        values.put(CardTable.COLUMN_NAME_OCC_ID, "New Occasion");
+        values.put(CardTable.COLUMN_NAME_ADD_GIVERS, card.getAddGivers());
 
         db.insert(CardTable.TABLE_NAME, null, values);
 
@@ -87,8 +101,21 @@ public class CardDBHelper extends SQLiteOpenHelper {
                     CardTable.COLUMN_NAME_P_PRES + TEXT_TYPE + COMMA_SEP +
                     CardTable.COLUMN_NAME_C_PRES + TEXT_TYPE + COMMA_SEP +
                     CardTable.COLUMN_NAME_OCC_ID + TEXT_TYPE + COMMA_SEP +
-                    CardTable.COLUMN_NAME_ADD_GIVERS + TEXT_TYPE + COMMA_SEP +
+                    CardTable.COLUMN_NAME_ADD_GIVERS + TEXT_TYPE +
                     " )";
+
+    private static final String SQL_SELECT_ALL_COLUMNS =
+            "SELECT " +
+            CardTable.COLUMN_NAME_CARD_ID + COMMA_SEP +
+            CardTable.COLUMN_NAME_GIVER + COMMA_SEP +
+            CardTable.COLUMN_NAME_P_FRONT  + COMMA_SEP +
+            CardTable.COLUMN_NAME_P_IN_LEFT + COMMA_SEP +
+            CardTable.COLUMN_NAME_P_IN_RIGHT + COMMA_SEP +
+            CardTable.COLUMN_NAME_P_PRES + COMMA_SEP +
+            CardTable.COLUMN_NAME_C_PRES + COMMA_SEP +
+            CardTable.COLUMN_NAME_OCC_ID + COMMA_SEP +
+            CardTable.COLUMN_NAME_ADD_GIVERS +
+            " FROM " + CardTable.TABLE_NAME;
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + CardTable.TABLE_NAME;
