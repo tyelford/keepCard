@@ -1,13 +1,25 @@
 package com.tyelford.cardkeeper;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Layout;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.view.ViewGroup;
+import android.widget.TableLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tyelford.cardkeeper.data.Card;
@@ -20,6 +32,11 @@ public class PersonActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person);
+
+        drawRow();
+        drawRow();
+        drawRow();
+        drawRow();
 
         //Lock the screen in portrait mode
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -67,6 +84,83 @@ public class PersonActivity extends Activity {
         CardDBHelper readCard = new CardDBHelper(this);
         Card card = readCard.getCard(2);
 
-        Toast.makeText(this, card.getCardFrontImg(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, card.getCardID(), Toast.LENGTH_SHORT).show();
+    }
+
+    //Method used to create the next item in the veritcal layout
+    private void drawRow(){
+        //Get the Main Vertical Layout
+        LinearLayout mainVert = (LinearLayout)findViewById(R.id.mainVertLayout);
+
+        //Create a new horizontal Layout
+        LinearLayout mainHor = new LinearLayout(this);
+        mainHor.setOrientation(LinearLayout.HORIZONTAL);
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+
+        layoutParams.setMargins(0, toDp(8), 0, toDp(8));
+
+        //Add the Text Field
+        TextView tv = new TextView(this);
+        tv.setText("Hello View");
+        tv.setLayoutParams(new TableLayout.LayoutParams(
+                0,
+                TableLayout.LayoutParams.MATCH_PARENT,
+                0.6F));
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+        //Add the TextView to the Horizontal Layout
+        mainHor.addView(tv);
+
+        //LinearLayout to hold images
+        LinearLayout imgHor = new LinearLayout(this);
+        imgHor.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams imgLayoutParams = new LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.MATCH_PARENT
+        );
+        imgLayoutParams.weight = 0.4F;
+
+        //Add the Images to the Horizontal Layout
+        ImageView img = new ImageView(this);
+        img.setImageResource(R.drawable.logo1);
+        img.setLayoutParams(new ViewGroup.LayoutParams(toDp(30), toDp(30)));
+
+
+        ImageView img2 = new ImageView(this);
+        img2.setImageResource(R.drawable.logo1);
+        img2.setLayoutParams(new ViewGroup.LayoutParams(toDp(30), toDp(30)));
+
+        //Add images to Layout
+        imgHor.addView(img);
+        imgHor.addView(img2);
+        mainHor.addView(imgHor);
+
+        //Add vertical divider
+        View div = new View(this);
+        div.setBackgroundColor(0xFFC2BEBF);
+        div.setLayoutParams(new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                toDp(1)
+        ));
+
+
+
+        //Add the horizontal LinearLayout to the Main Layout
+        mainVert.addView(mainHor, layoutParams);
+        mainVert.addView(div);
+
+
+
+
+
+    }
+
+
+    //Method to convert a dp value into pixels
+    private int toDp(int px){
+        return (int)  (px * getResources().getDisplayMetrics().density);
     }
 }

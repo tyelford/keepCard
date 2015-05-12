@@ -39,7 +39,7 @@ public class CardDBHelper extends SQLiteOpenHelper {
 
         //build query
         //Cursor cursor = db.query(CardTable.TABLE_NAME, CardTable.COLUMNS, "id = ?", new String[] {String.valueOf(id)}, null, null, null, null);
-        Cursor cursor = db.rawQuery(SQL_SELECT_ALL_COLUMNS + " where card_id = ? ", new String[]{Integer.toString(id)});
+        Cursor cursor = db.rawQuery(SQL_SELECT_ALL_COLUMNS + " where _id = ? ", new String[]{Integer.toString(id)});
         if(cursor != null){
             cursor.moveToFirst();
         }
@@ -68,7 +68,6 @@ public class CardDBHelper extends SQLiteOpenHelper {
 
         //create the content values to add
         ContentValues values = new ContentValues();
-        values.put(CardTable.COLUMN_NAME_CARD_ID, "2");
         values.put(CardTable.COLUMN_NAME_GIVER, card.getCardGiver());
         values.put(CardTable.COLUMN_NAME_P_FRONT, card.getCardFrontImg());
         values.put(CardTable.COLUMN_NAME_P_IN_LEFT, card.getCardInLeftImg());
@@ -93,7 +92,6 @@ public class CardDBHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + CardTable.TABLE_NAME + " (" +
                     CardTable._ID + " INTEGER PRIMARY KEY," +
-                    CardTable.COLUMN_NAME_CARD_ID + TEXT_TYPE + COMMA_SEP +
                     CardTable.COLUMN_NAME_GIVER + TEXT_TYPE + COMMA_SEP +
                     CardTable.COLUMN_NAME_P_FRONT  + TEXT_TYPE + COMMA_SEP +
                     CardTable.COLUMN_NAME_P_IN_LEFT + TEXT_TYPE + COMMA_SEP +
@@ -106,7 +104,7 @@ public class CardDBHelper extends SQLiteOpenHelper {
 
     private static final String SQL_SELECT_ALL_COLUMNS =
             "SELECT " +
-            CardTable.COLUMN_NAME_CARD_ID + COMMA_SEP +
+            CardTable._ID + COMMA_SEP +
             CardTable.COLUMN_NAME_GIVER + COMMA_SEP +
             CardTable.COLUMN_NAME_P_FRONT  + COMMA_SEP +
             CardTable.COLUMN_NAME_P_IN_LEFT + COMMA_SEP +

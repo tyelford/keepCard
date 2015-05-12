@@ -7,29 +7,76 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:id="@+id/mainVertLayout"
     tools:context="com.tyelford.cardkeeper.PersonActivity">
 
-    <!--Create a horizontal Linear Layout with one TextView and upto 3 ImageViews-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="7.5dp"
-        android:layout_marginTop="7.5dp">
+    <!--&lt;!&ndash;Create a horizontal Linear Layout with one TextView and upto 3 ImageViews&ndash;&gt;-->
+    <!--<LinearLayout-->
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".6"
-            android:text="Tyson Elford"
-            android:textSize="20dp"
-            android:gravity="bottom"/>
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_marginBottom="7.5dp"-->
+        <!--android:layout_marginTop="7.5dp">-->
 
-        <!--Container to hold the image icons-->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".4">
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight=".6"-->
+            <!--android:text="Tyson Elford"-->
+            <!--android:textSize="20dp"-->
+            <!--android:gravity="bottom"/>-->
+
+        <!--&lt;!&ndash;Container to hold the image icons&ndash;&gt;-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight=".4">-->
+
+            <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="30dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="30dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_marginRight="10dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:src="@drawable/logo1" />&ndash;&gt;-->
+
+            <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="30dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="30dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_marginRight="10dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:src="@drawable/logo1" />&ndash;&gt;-->
+
+            <!--<ImageView-->
+                <!--android:layout_width="30dp"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:src="@drawable/logo1" />-->
+        <!--</LinearLayout>-->
+    <!--</LinearLayout>-->
+
+
+    <!--<View style="@style/Divider" />-->
+
+    <!--&lt;!&ndash;Create a horizontal Linear Layout with one TextView and upto 3 ImageViews&ndash;&gt;-->
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_marginBottom="7.5dp"-->
+        <!--android:layout_marginTop="7.5dp">-->
+
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight=".6"-->
+            <!--android:text="Mark Erbacher"-->
+            <!--android:textSize="20dp"-->
+            <!--android:gravity="bottom"/>-->
+
+        <!--&lt;!&ndash;Container to hold the image icons&ndash;&gt;-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight=".4">-->
 
             <!--<ImageView-->
                 <!--android:layout_width="30dp"-->
@@ -43,82 +90,43 @@
                 <!--android:layout_marginRight="10dp"-->
                 <!--android:src="@drawable/logo1" />-->
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/logo1" />
-        </LinearLayout>
-    </LinearLayout>
+            <!--<ImageView-->
+                <!--android:layout_width="30dp"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:src="@drawable/logo1" />-->
+        <!--</LinearLayout>-->
+    <!--</LinearLayout>-->
 
+    <!--<View style="@style/Divider" />-->
 
-    <View style="@style/Divider" />
+    <!--&lt;!&ndash;Create a horizontal Linear Layout with one TextView and upto 3 ImageViews&ndash;&gt;-->
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_marginBottom="7.5dp"-->
+        <!--android:layout_marginTop="7.5dp">-->
 
-    <!--Create a horizontal Linear Layout with one TextView and upto 3 ImageViews-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="7.5dp"
-        android:layout_marginTop="7.5dp">
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight=".6"-->
+            <!--android:text="Cassman"-->
+            <!--android:textSize="20dp"-->
+            <!--android:gravity="bottom"/>-->
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".6"
-            android:text="Mark Erbacher"
-            android:textSize="20dp"
-            android:gravity="bottom"/>
+        <!--&lt;!&ndash;Container to hold the image icons&ndash;&gt;-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight=".4">-->
 
-        <!--Container to hold the image icons-->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".4">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/logo1" />
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/logo1" />
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/logo1" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <View style="@style/Divider" />
-
-    <!--Create a horizontal Linear Layout with one TextView and upto 3 ImageViews-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="7.5dp"
-        android:layout_marginTop="7.5dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".6"
-            android:text="Cassman"
-            android:textSize="20dp"
-            android:gravity="bottom"/>
-
-        <!--Container to hold the image icons-->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".4">
+            <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="30dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="30dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_marginRight="10dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:src="@drawable/logo1" />&ndash;&gt;-->
 
             <!--<ImageView-->
                 <!--android:layout_width="30dp"-->
@@ -126,20 +134,14 @@
                 <!--android:layout_marginRight="10dp"-->
                 <!--android:src="@drawable/logo1" />-->
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/logo1" />
+            <!--<ImageView-->
+                <!--android:layout_width="30dp"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:src="@drawable/logo1" />-->
+        <!--</LinearLayout>-->
+    <!--</LinearLayout>-->
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/logo1" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <View style="@style/Divider" />
+    <!--<View style="@style/Divider" />-->
 
 </LinearLayout>
