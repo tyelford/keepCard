@@ -25,6 +25,8 @@ import android.widget.Toast;
 import com.tyelford.cardkeeper.data.Card;
 import com.tyelford.cardkeeper.data.CardDBHelper;
 
+import java.util.ArrayList;
+
 
 public class PersonActivity extends Activity {
 
@@ -33,10 +35,19 @@ public class PersonActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person);
 
-        drawRow();
-        drawRow();
-        drawRow();
-        drawRow();
+
+        setupMenu();
+        //Something along the lines of
+        //1. Get a Card[] with all the cards for unique givers
+        Card[] cards = getUniqueCardGivers();
+        //2. foreach the Card[]
+        //3. Call drawRow for each unique card and add three pictures only
+        //4. draw will have to be modified to take a Card object
+
+//        drawRow();
+//        drawRow();
+//        drawRow();
+//        drawRow();
 
         //Lock the screen in portrait mode
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -48,7 +59,7 @@ public class PersonActivity extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_person, menu);
 
-        setupMenu();
+
 
         return true;
     }
@@ -87,8 +98,18 @@ public class PersonActivity extends Activity {
         Toast.makeText(this, card.getCardID(), Toast.LENGTH_SHORT).show();
     }
 
+    //Method to get the unique card givers
+    private Card[] getUniqueCardGivers(){
+        //Do Database Query here
+        CardDBHelper readCard = new CardDBHelper(this);
+        ArrayList<Card> cards = readCard.getUniqueCardGivers();
+
+
+        return null;
+    }
+
     //Method used to create the next item in the veritcal layout
-    private void drawRow(){
+    private void drawRow(Card card){
         //Get the Main Vertical Layout
         LinearLayout mainVert = (LinearLayout)findViewById(R.id.mainVertLayout);
 
@@ -105,7 +126,7 @@ public class PersonActivity extends Activity {
 
         //Add the Text Field
         TextView tv = new TextView(this);
-        tv.setText("Hello View");
+        tv.setText(card.getCardGiver());
         tv.setLayoutParams(new TableLayout.LayoutParams(
                 0,
                 TableLayout.LayoutParams.MATCH_PARENT,
@@ -146,14 +167,9 @@ public class PersonActivity extends Activity {
                 toDp(1)
         ));
 
-
-
         //Add the horizontal LinearLayout to the Main Layout
         mainVert.addView(mainHor, layoutParams);
         mainVert.addView(div);
-
-
-
 
 
     }

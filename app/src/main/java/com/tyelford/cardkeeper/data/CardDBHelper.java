@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.tyelford.cardkeeper.data.CardDBContract.CardTable;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 /**
  * Created by elfordty on 1/05/2015.
  */
@@ -31,6 +34,21 @@ public class CardDBHelper extends SQLiteOpenHelper {
 
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion){
         onUpgrade(db, oldVersion, newVersion);
+    }
+
+    //Method for PersonActivity List Screen
+    public ArrayList<Card> getUniqueCardGivers(){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        //Plan
+        //1.Get all Cards
+        //2.Loop through the cards one by one
+        //3.Create a list of the Givers
+        //4.Add only uniqe givers to the list - no doubles
+        //5.Get the first 3 card objects for each unique giver
+
+        //Cursor cursor db.rawQuery(SQL_SELECT_ALL_COLUMNS + " where ")
+        return null;
     }
 
     public Card getCard(int id){
