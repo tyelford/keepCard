@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Layout;
@@ -25,6 +27,7 @@ import android.widget.Toast;
 import com.tyelford.cardkeeper.data.Card;
 import com.tyelford.cardkeeper.data.CardDBHelper;
 
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -35,19 +38,20 @@ public class PersonActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person);
 
+        //setupMenu();
 
-        setupMenu();
-        //Something along the lines of
-        //1. Get a Card[] with all the cards for unique givers
-        Card[] cards = getUniqueCardGivers();
-        //2. foreach the Card[]
-        //3. Call drawRow for each unique card and add three pictures only
-        //4. draw will have to be modified to take a Card object
+        //1. Get the names of all the unique givers
+        String[] uniqueGivers = getUniqueCardGivers();
+        //Loop through the unique givers and
+        //1.Find the first three Cover photos from that Giver
+        //2.Draw the row for the Unique Giver
+        for(int i = 0; i < uniqueGivers.length; i++){
+            //Find the first three photos for a giver
+            String[] photos = getThreePhotosPerGiver(uniqueGivers[i]);
+            //Draw the row
+            drawRow(uniqueGivers[i], photos);
+        }
 
-//        drawRow();
-//        drawRow();
-//        drawRow();
-//        drawRow();
 
         //Lock the screen in portrait mode
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -99,17 +103,21 @@ public class PersonActivity extends Activity {
     }
 
     //Method to get the unique card givers
-    private Card[] getUniqueCardGivers(){
+    private String[] getUniqueCardGivers(){
         //Do Database Query here
         CardDBHelper readCard = new CardDBHelper(this);
-        ArrayList<Card> cards = readCard.getUniqueCardGivers();
+        return readCard.getUniqueCardGivers();
+    }
 
-
-        return null;
+    //Get three photos for a given giver - will just return the path on disk
+    public String[] getThreePhotosPerGiver(String giver){
+        //Call the database method
+        CardDBHelper readCard = new CardDBHelper(this);
+        return readCard.getThreePhotosPerGiver(giver);
     }
 
     //Method used to create the next item in the veritcal layout
-    private void drawRow(Card card){
+    private void drawRow(String s, String[] photos){
         //Get the Main Vertical Layout
         LinearLayout mainVert = (LinearLayout)findViewById(R.id.mainVertLayout);
 
@@ -126,7 +134,7 @@ public class PersonActivity extends Activity {
 
         //Add the Text Field
         TextView tv = new TextView(this);
-        tv.setText(card.getCardGiver());
+        tv.setText(s);
         tv.setLayoutParams(new TableLayout.LayoutParams(
                 0,
                 TableLayout.LayoutParams.MATCH_PARENT,
@@ -144,19 +152,33 @@ public class PersonActivity extends Activity {
         );
         imgLayoutParams.weight = 0.4F;
 
-        //Add the Images to the Horizontal Layout
-        ImageView img = new ImageView(this);
-        img.setImageResource(R.drawable.logo1);
-        img.setLayoutParams(new ViewGroup.LayoutParams(toDp(30), toDp(30)));
+        //Add upto three images
+        for(int i = 0; i < photos.length; i++){
+            File file = new File(photos[i]);
+            if(file.exists()){
+                ImageView img = new ImageView(this);
+                img.setLayoutParams(new ViewGroup.LayoutParams(toDp(30), toDp(30)));
+                imgHor.addView(img);
+                loadPic(file.getAbsolutePath(), img);
 
 
-        ImageView img2 = new ImageView(this);
-        img2.setImageResource(R.drawable.logo1);
-        img2.setLayoutParams(new ViewGroup.LayoutParams(toDp(30), toDp(30)));
 
-        //Add images to Layout
-        imgHor.addView(img);
-        imgHor.addView(img2);
+            }
+        }
+
+//        //Add the Images to the Horizontal Layout
+//        ImageView img = new ImageView(this);
+//        img.setImageResource(R.drawable.logo1);
+//        img.setLayoutParams(new ViewGroup.LayoutParams(toDp(30), toDp(30)));
+//
+//
+//        ImageView img2 = new ImageView(this);
+//        img2.setImageResource(R.drawable.logo1);
+//        img2.setLayoutParams(new ViewGroup.LayoutParams(toDp(30), toDp(30)));
+//
+//        //Add images to Layout
+//        imgHor.addView(img);
+//        imgHor.addView(img2);
         mainHor.addView(imgHor);
 
         //Add vertical divider
@@ -178,5 +200,30 @@ public class PersonActivity extends Activity {
     //Method to convert a dp value into pixels
     private int toDp(int px){
         return (int)  (px * getResources().getDisplayMetrics().density);
+    }
+
+    //Load the picture back from the file
+    private void loadPic(String photoPath, ImageView mImageView){
+        //Get the dimensions of the View
+        int targetW = toDp(30);
+        int targetH = toDp(30);
+
+        //Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(photoPath, bmOptions);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        //Determine how much to scale down the image
+        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
+
+        //Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(photoPath, bmOptions);
+        mImageView.setImageBitmap(bitmap);
     }
 }

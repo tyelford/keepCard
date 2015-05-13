@@ -36,19 +36,54 @@ public class CardDBHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    //Method for PersonActivity List Screen
-    public ArrayList<Card> getUniqueCardGivers(){
+    //Method to return unique card givers
+    public String[] getUniqueCardGivers(){
         SQLiteDatabase db = this.getReadableDatabase();
 
-        //Plan
-        //1.Get all Cards
-        //2.Loop through the cards one by one
-        //3.Create a list of the Givers
-        //4.Add only uniqe givers to the list - no doubles
-        //5.Get the first 3 card objects for each unique giver
+        Cursor cursor = db.rawQuery(SQL_SELECT_DISTINCT_GIVERS, null);
 
-        //Cursor cursor db.rawQuery(SQL_SELECT_ALL_COLUMNS + " where ")
-        return null;
+        ArrayList<String> thisUniqueGivers = new ArrayList<String>();
+
+        if(cursor != null) {
+            cursor.moveToFirst();
+            do{
+                thisUniqueGivers.add(cursor.getString(0));
+            }while(cursor.moveToNext());
+        }
+
+        String[] s = new String[thisUniqueGivers.size()];
+        s = thisUniqueGivers.toArray(s);
+        return s;
+    }
+
+    //Method to return three photos for a given giver - Path on Disk only
+    public String[] getThreePhotosPerGiver(String giver){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(SQL_SELECT_FRONT_PHOTO_OF_GIVER, new String[]{giver});
+
+        ArrayList<String> photos = new ArrayList<String>();
+        int counter = 0;
+        if(cursor != null){
+            cursor.moveToFirst();
+            do{
+                String thisPhoto = cursor.getString(0);
+                if(thisPhoto == null || thisPhoto.equals("")) {
+                    counter++;
+                    continue;
+                }
+                photos.add(thisPhoto);
+                counter++;
+                if(counter == 3){
+                    break;
+                }
+            }while(cursor.moveToNext());
+        }else
+            return new String[]{};
+
+        String[] s = new String[photos.size()];
+        s = photos.toArray(s);
+        return s;
     }
 
     public Card getCard(int id){
@@ -102,6 +137,12 @@ public class CardDBHelper extends SQLiteOpenHelper {
     }
 
 
+    //Method to delete the entire database
+    public void deleteDB(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(SQL_DELETE_ALL_ROWS);
+    }
+
 
     //Some helpers to build the database
     private static final String TEXT_TYPE = " TEXT";
@@ -133,6 +174,22 @@ public class CardDBHelper extends SQLiteOpenHelper {
             CardTable.COLUMN_NAME_ADD_GIVERS +
             " FROM " + CardTable.TABLE_NAME;
 
+    private static final String SQL_SELECT_DISTINCT_GIVERS =
+            "SELECT DISTINCT " +
+            CardTable.COLUMN_NAME_GIVER +
+            " FROM " + CardTable.TABLE_NAME;
+
+    private static final String SQL_SELECT_FRONT_PHOTO_OF_GIVER =
+            "SELECT " +
+             CardTable.COLUMN_NAME_P_FRONT +
+             " FROM " + CardTable.TABLE_NAME +
+             " WHERE " + CardTable.COLUMN_NAME_GIVER +
+             " = ?" +
+             " ORDER BY " + CardTable._ID + " DESC";
+
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + CardTable.TABLE_NAME;
+
+    private static final String SQL_DELETE_ALL_ROWS =
+            "DELETE FROM " + CardTable.TABLE_NAME;
 }

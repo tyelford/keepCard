@@ -28,19 +28,28 @@
     <Button
         android:layout_width="277dp"
         android:layout_height="wrap_content"
-        android:text="Person"
+        android:text="My Givers"
         android:id="@+id/button_my_occasions"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="60dp"
         android:onClick="loadPersons"/>
 
+    <!--<Button-->
+        <!--android:layout_width="277dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="My Givers"-->
+        <!--android:id="@+id/button_my_givers"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_marginBottom="30dp"-->
+        <!--android:onClick="loadGiver"/>-->
+
     <Button
-        android:layout_width="277dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My Givers"
-        android:id="@+id/button_my_givers"
-        android:layout_gravity="center_horizontal"
-        android:onClick="loadGiver"/>
+        android:text="Delete Database"
+        android:id="@+id/button_delete_database"
+        android:layout_gravity="right"
+        android:onClick="deleteDatabase"/>
 
 
 </LinearLayout>

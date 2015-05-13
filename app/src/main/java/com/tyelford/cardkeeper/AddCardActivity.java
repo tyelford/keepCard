@@ -256,14 +256,13 @@ public class AddCardActivity extends Activity {
         CardDBHelper writeCardDB = new CardDBHelper(this);
         writeCardDB.insertCard(newCard);
 
+        Toast.makeText(this, "Card Saved!", Toast.LENGTH_LONG).show();
 
-
-
-        //Goto the Giver Activity
+        //Goto the Person Activity
         //Clear the activity stack
-        //Intent intent = new Intent(getApplicationContext(), PersonActivity.class);
-        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-       // startActivity(intent);
+        Intent intent = new Intent(getApplicationContext(), PersonActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
 

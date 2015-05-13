@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 import com.tyelford.cardkeeper.data.CardDBHelper;
 
@@ -66,5 +67,11 @@ public class Splash extends Activity {
     public void loadNewCard(View view){
         Intent intent = new Intent(this, AddCardActivity.class);
         startActivity(intent);
+    }
+
+    public void deleteDatabase(View view){
+        CardDBHelper deleteDB = new CardDBHelper(this);
+        deleteDB.deleteDB();
+        Toast.makeText(this, "You have delete all database records", Toast.LENGTH_LONG).show();
     }
 }
