@@ -3,12 +3,23 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <!--Activity Titles-->
     <string name="title_activity_card">CardActivity</string>
     <string name="title_activity_full_screen_card">FullScreenCard</string>
     <string name="title_activity_splash">Card Box</string>
     <string name="title_activity_person">My Givers</string>
     <string name="title_activity_add_card">Add a New Card</string>
+
+    <!--Add Card Strings-->
     <string name="commentsHint">Notes on this Card</string>
-    <string name="giverHint">Who gave it to you?</string>
+    <string name="insertGiverHint">Who gave it to you?</string>
     <string name="addPresent">Add a present?</string>
+    <string name="insertOccasionHint">Add to an Occasion?</string>
+    <string name="insertAddGiverHint">Any Additional Givers?</string>
+    <string name="presentPhotoButtonText">Photo of Present?</string>
+    <string name="saveButtonText">Save</string>
+    <string name="frontPhotoButtonText">Photo of Front</string>
+    <string name="inLeftPhotoButtonText">Photo of Inside Left</string>
+    <string name="inRightPhotoButtonText">Photo of Inside Right</string>
 </resources>

@@ -34,7 +34,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:autoText="false"
-        android:hint="@string/giverHint"/>
+        android:inputType="textCapSentences"
+        android:hint="@string/insertGiverHint"/>
 
 
     <LinearLayout
@@ -49,7 +50,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginRight="50dp"
             android:onClick="takeImageFront"
-            android:text="Photo of Front" />
+            android:text="@string/frontPhotoButtonText" />
 
         <ImageView
             android:id="@+id/imgViewFront"
@@ -70,7 +71,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginRight="50dp"
             android:onClick="takeImageLeft"
-            android:text="Photo of Inside Left" />
+            android:text="@string/inLeftPhotoButtonText" />
 
         <ImageView
             android:id="@+id/imgViewLeft"
@@ -91,7 +92,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginRight="50dp"
             android:onClick="takeImageRight"
-            android:text="Photo of Inside Right" />
+            android:text="@string/inRightPhotoButtonText" />
 
         <ImageView
             android:id="@+id/imgViewRight"
@@ -103,7 +104,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
+        android:inputType="textMultiLine|textCapSentences"
         android:ems="10"
         android:id="@+id/insertComments"
         android:layout_weight="0.05"
@@ -114,7 +115,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/insertOccasion"
         android:layout_weight="0.05"
-        android:hint="Add to an Occasion?"/>
+        android:inputType="textCapSentences"
+        android:hint="@string/insertOccasionHint"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -122,7 +124,8 @@
         android:id="@+id/insertAddGivers"
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.05"
-        android:hint="Any Additional Givers?"/>
+        android:inputType="textCapSentences"
+        android:hint="@string/insertAddGiverHint"/>
 
     <!--<CheckBox-->
         <!--android:layout_width="wrap_content"-->
@@ -142,10 +145,9 @@
             android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-
             android:layout_marginRight="50dp"
             android:onClick="takeImagePresent"
-            android:text="Photo of Present?" />
+            android:text="@string/presentPhotoButtonText" />
 
         <ImageView
             android:id="@+id/imgViewPresent"
@@ -157,8 +159,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="   Save   "
-        android:id="@+id/button"
+        android:text="@string/saveButtonText"
+        android:id="@+id/saveButton"
         android:layout_gravity="right"
         android:layout_marginTop="10dp"
         android:layout_weight="0.05"

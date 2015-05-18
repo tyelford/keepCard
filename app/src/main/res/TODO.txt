@@ -1,0 +1,2 @@
+ScrollView for Add Card
+Capitilization at start of Edit Text

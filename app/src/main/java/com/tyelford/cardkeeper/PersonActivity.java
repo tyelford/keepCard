@@ -15,7 +15,9 @@ import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -51,8 +53,6 @@ public class PersonActivity extends Activity {
             //Draw the row
             drawRow(uniqueGivers[i], photos);
         }
-
-
         //Lock the screen in portrait mode
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
@@ -116,8 +116,9 @@ public class PersonActivity extends Activity {
         return readCard.getThreePhotosPerGiver(giver);
     }
 
+
     //Method used to create the next item in the veritcal layout
-    private void drawRow(String s, String[] photos){
+    private void drawRow(String thisGiver, String[] photos){
         //Get the Main Vertical Layout
         LinearLayout mainVert = (LinearLayout)findViewById(R.id.mainVertLayout);
 
@@ -130,11 +131,43 @@ public class PersonActivity extends Activity {
                 LinearLayout.LayoutParams.WRAP_CONTENT
         );
 
-        layoutParams.setMargins(0, toDp(8), 0, toDp(8));
+//        layoutParams.setMargins(0, toDp(8), 0, 0);
+        mainHor.setPadding(0, toDp(8), 0, toDp(8));
+
+        //Add Click Listener to Horizonal Linear
+        mainHor.setClickable(true);
+        int thisId = thisGiver.hashCode();
+        mainHor.setId(thisId);
+//        mainHor.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(PersonActivity.this, "I was clicked", Toast.LENGTH_LONG).show();
+//            }
+//        });
+        mainHor.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                int bgColour = view.getDrawingCacheBackgroundColor();
+                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    LinearLayout ll = (LinearLayout) view;
+                    ll.setBackgroundColor(0xFFC2BEBF);
+                    return true;
+                }
+                if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    LinearLayout ll = (LinearLayout) view;
+                    ll.setBackgroundColor(bgColour);
+                    TextView textV = (TextView)ll.getChildAt(0);
+//                    Toast.makeText(PersonActivity.this, textV.getText(), Toast.LENGTH_LONG).show();
+                    loadGiverActivity(textV.getText().toString());
+                    return true;
+                }
+                return false;
+            }
+        });
 
         //Add the Text Field
         TextView tv = new TextView(this);
-        tv.setText(s);
+        tv.setText(thisGiver);
         tv.setLayoutParams(new TableLayout.LayoutParams(
                 0,
                 TableLayout.LayoutParams.MATCH_PARENT,
@@ -143,28 +176,31 @@ public class PersonActivity extends Activity {
         //Add the TextView to the Horizontal Layout
         mainHor.addView(tv);
 
-        //LinearLayout to hold images
-        LinearLayout imgHor = new LinearLayout(this);
-        imgHor.setOrientation(LinearLayout.HORIZONTAL);
-        LinearLayout.LayoutParams imgLayoutParams = new LinearLayout.LayoutParams(
-                0,
-                LinearLayout.LayoutParams.MATCH_PARENT
-        );
-        imgLayoutParams.weight = 0.4F;
 
-        //Add upto three images
-        for(int i = 0; i < photos.length; i++){
-            File file = new File(photos[i]);
-            if(file.exists()){
-                ImageView img = new ImageView(this);
-                img.setLayoutParams(new ViewGroup.LayoutParams(toDp(30), toDp(30)));
-                imgHor.addView(img);
-                loadPic(file.getAbsolutePath(), img);
+        //CHeck if there is photos
+        if(photos.length != 0){
+            //LinearLayout to hold images
+            LinearLayout imgHor = new LinearLayout(this);
+            imgHor.setOrientation(LinearLayout.HORIZONTAL);
+            LinearLayout.LayoutParams imgLayoutParams = new LinearLayout.LayoutParams(
+                    0,
+                    LinearLayout.LayoutParams.MATCH_PARENT
+            );
+            imgLayoutParams.weight = 0.4F;
 
-
-
+            //Add upto three images
+            for(int i = 0; i < photos.length; i++){
+                File file = new File(photos[i]);
+                if(file.exists()){
+                    ImageView img = new ImageView(this);
+                    img.setLayoutParams(new ViewGroup.LayoutParams(toDp(30), toDp(30)));
+                    imgHor.addView(img);
+                    loadPic(file.getAbsolutePath(), img);
+                }
             }
+            mainHor.addView(imgHor);
         }
+
 
 //        //Add the Images to the Horizontal Layout
 //        ImageView img = new ImageView(this);
@@ -179,7 +215,7 @@ public class PersonActivity extends Activity {
 //        //Add images to Layout
 //        imgHor.addView(img);
 //        imgHor.addView(img2);
-        mainHor.addView(imgHor);
+
 
         //Add vertical divider
         View div = new View(this);
@@ -195,7 +231,6 @@ public class PersonActivity extends Activity {
 
 
     }
-
 
     //Method to convert a dp value into pixels
     private int toDp(int px){
@@ -225,5 +260,10 @@ public class PersonActivity extends Activity {
 
         Bitmap bitmap = BitmapFactory.decodeFile(photoPath, bmOptions);
         mImageView.setImageBitmap(bitmap);
+    }
+
+    private void loadGiverActivity(String dasGiver){
+        //Load up the next activity to display all the cards from a single giver
+
     }
 }
