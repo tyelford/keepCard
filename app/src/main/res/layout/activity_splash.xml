@@ -18,7 +18,7 @@
     <Button
         android:layout_width="277dp"
         android:layout_height="wrap_content"
-        android:text="Add a new card"
+        android:text="@string/splash_add_card_button"
         android:id="@+id/button_add_card"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="20dp"
@@ -28,20 +28,34 @@
     <Button
         android:layout_width="277dp"
         android:layout_height="wrap_content"
-        android:text="My Givers"
-        android:id="@+id/button_my_occasions"
+        android:text="@string/splash_add_occasion_button"
+        android:id="@+id/button_add_occasion"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="20dp"
+        android:onClick="loadNewCard"
+        />
+
+    <Button
+        android:layout_width="277dp"
+        android:layout_height="wrap_content"
+        android:text="@string/splash_my_givers_button"
+        android:id="@+id/button_my_givers"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"
         android:onClick="loadPersons"/>
 
-    <!--<Button-->
-        <!--android:layout_width="277dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="My Givers"-->
-        <!--android:id="@+id/button_my_givers"-->
-        <!--android:layout_gravity="center_horizontal"-->
-        <!--android:layout_marginBottom="30dp"-->
-        <!--android:onClick="loadGiver"/>-->
+    <Button
+        android:layout_width="277dp"
+        android:layout_height="wrap_content"
+        android:text="@string/splash_my_occasion_button"
+        android:id="@+id/button_my_occasions"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="30dp"
+        android:onClick="loadOccasions"/>
+
+
+
+
 
     <Button
         android:layout_width="wrap_content"

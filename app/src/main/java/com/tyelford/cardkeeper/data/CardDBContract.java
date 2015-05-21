@@ -9,7 +9,7 @@ public class CardDBContract{
 
     public CardDBContract(){}
 
-    //Inner class that defines the table content
+    //Inner class for the Card Table
     public static abstract class CardTable implements BaseColumns{
         public static final String TABLE_NAME = "CardTable";
 
@@ -30,5 +30,17 @@ public class CardDBContract{
                     COLUMN_NAME_OCC_ID, COLUMN_NAME_ADD_GIVERS};
             return columnArray;
         }
+    }
+
+    //Inner class for the Occasions Table
+    public static abstract class OccasionTable implements BaseColumns{
+        public static final String TABLE_NAME = "OccasionsTable";
+
+        //Create the columns for the Table
+        public static final String COLUMN_NAME_OCCASION = "occasion";
+        public static final String COLUMN_NAME_DATE = "occ_date";
+        public static final String COLUMN_NAME_LOCATION = "occ_location";
+        public static final String COLUMN_NAME_NOTES = "occ_notes";
+
     }
 }

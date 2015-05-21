@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.tyelford.cardkeeper.data.CardDBContract.CardTable;
+import com.tyelford.cardkeeper.data.CardDBContract.OccasionTable;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -24,11 +25,17 @@ public class CardDBHelper extends SQLiteOpenHelper {
     }
 
     public void onCreate(SQLiteDatabase db){
-        db.execSQL(SQL_CREATE_ENTRIES);
+        //Create the Card table
+        db.execSQL(SQL_CREATE_CARD_ENTRIES);
+        //Create the Occasion table
+        db.execSQL(SQL_CREATE_OCCASION_ENTRIES);
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
-        db.execSQL(SQL_DELETE_ENTRIES);
+        //Upgrade the Card Table
+        db.execSQL(SQL_DELETE_CARD_ENTRIES);
+        //Upgrade the Occasions Table
+        db.execSQL(SQL_DELETE_OCCASION_ENTRIES);
         onCreate(db);
     }
 
@@ -37,14 +44,14 @@ public class CardDBHelper extends SQLiteOpenHelper {
     }
 
     //Method to return unique card givers
-    public String[] getUniqueCardGivers(){
+    public String[] getUniqueCardGivers() throws NoGiversException{
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery(SQL_SELECT_DISTINCT_GIVERS, null);
 
         ArrayList<String> thisUniqueGivers = new ArrayList<String>();
 
-        if(cursor != null) {
+        if(cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             do{
                 thisUniqueGivers.add(cursor.getString(0));
@@ -52,6 +59,10 @@ public class CardDBHelper extends SQLiteOpenHelper {
         }
 
         String[] s = new String[thisUniqueGivers.size()];
+
+        if (s.length == 0)
+            throw new NoGiversException("NoGiversAreInTheDatabase");
+
         s = thisUniqueGivers.toArray(s);
         return s;
     }
@@ -92,7 +103,7 @@ public class CardDBHelper extends SQLiteOpenHelper {
 
         //build query
         //Cursor cursor = db.query(CardTable.TABLE_NAME, CardTable.COLUMNS, "id = ?", new String[] {String.valueOf(id)}, null, null, null, null);
-        Cursor cursor = db.rawQuery(SQL_SELECT_ALL_COLUMNS + " where _id = ? ", new String[]{Integer.toString(id)});
+        Cursor cursor = db.rawQuery(SQL_SELECT_ALL_CARD_COLUMNS + " where _id = ? ", new String[]{Integer.toString(id)});
         if(cursor != null){
             cursor.moveToFirst();
         }
@@ -140,7 +151,7 @@ public class CardDBHelper extends SQLiteOpenHelper {
     //Method to delete the entire database
     public void deleteDB(){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL(SQL_DELETE_ALL_ROWS);
+        db.execSQL(SQL_DELETE_ALL_CARD_ROWS);
     }
 
 
@@ -148,20 +159,23 @@ public class CardDBHelper extends SQLiteOpenHelper {
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
 
-    private static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE " + CardTable.TABLE_NAME + " (" +
-                    CardTable._ID + " INTEGER PRIMARY KEY," +
-                    CardTable.COLUMN_NAME_GIVER + TEXT_TYPE + COMMA_SEP +
-                    CardTable.COLUMN_NAME_P_FRONT  + TEXT_TYPE + COMMA_SEP +
-                    CardTable.COLUMN_NAME_P_IN_LEFT + TEXT_TYPE + COMMA_SEP +
-                    CardTable.COLUMN_NAME_P_IN_RIGHT + TEXT_TYPE + COMMA_SEP +
-                    CardTable.COLUMN_NAME_P_PRES + TEXT_TYPE + COMMA_SEP +
-                    CardTable.COLUMN_NAME_C_PRES + TEXT_TYPE + COMMA_SEP +
-                    CardTable.COLUMN_NAME_OCC_ID + TEXT_TYPE + COMMA_SEP +
-                    CardTable.COLUMN_NAME_ADD_GIVERS + TEXT_TYPE +
-                    " )";
+    /******************************/
+    //CARD TABLE STRINGS//
 
-    private static final String SQL_SELECT_ALL_COLUMNS =
+    private static final String SQL_CREATE_CARD_ENTRIES =
+            "CREATE TABLE " + CardTable.TABLE_NAME + " (" +
+            CardTable._ID + " INTEGER PRIMARY KEY," +
+            CardTable.COLUMN_NAME_GIVER + TEXT_TYPE + COMMA_SEP +
+            CardTable.COLUMN_NAME_P_FRONT  + TEXT_TYPE + COMMA_SEP +
+            CardTable.COLUMN_NAME_P_IN_LEFT + TEXT_TYPE + COMMA_SEP +
+            CardTable.COLUMN_NAME_P_IN_RIGHT + TEXT_TYPE + COMMA_SEP +
+            CardTable.COLUMN_NAME_P_PRES + TEXT_TYPE + COMMA_SEP +
+            CardTable.COLUMN_NAME_C_PRES + TEXT_TYPE + COMMA_SEP +
+            CardTable.COLUMN_NAME_OCC_ID + TEXT_TYPE + COMMA_SEP +
+            CardTable.COLUMN_NAME_ADD_GIVERS + TEXT_TYPE +
+            " )";
+
+    private static final String SQL_SELECT_ALL_CARD_COLUMNS =
             "SELECT " +
             CardTable._ID + COMMA_SEP +
             CardTable.COLUMN_NAME_GIVER + COMMA_SEP +
@@ -187,9 +201,27 @@ public class CardDBHelper extends SQLiteOpenHelper {
              " = ?" +
              " ORDER BY " + CardTable._ID + " DESC";
 
-    private static final String SQL_DELETE_ENTRIES =
+    private static final String SQL_DELETE_CARD_ENTRIES =
             "DROP TABLE IF EXISTS " + CardTable.TABLE_NAME;
 
-    private static final String SQL_DELETE_ALL_ROWS =
+    private static final String SQL_DELETE_ALL_CARD_ROWS =
             "DELETE FROM " + CardTable.TABLE_NAME;
+
+
+    /****************************************/
+    //OCCASION TABLE STRINGS//
+
+    private static final String SQL_CREATE_OCCASION_ENTRIES =
+            "CREATE TABLE " + OccasionTable.TABLE_NAME + " (" +
+            OccasionTable._ID + " INTEGER PRIMARY KEY," +
+            OccasionTable.COLUMN_NAME_OCCASION + TEXT_TYPE + COMMA_SEP +
+            OccasionTable.COLUMN_NAME_DATE + TEXT_TYPE + COMMA_SEP +
+            OccasionTable.COLUMN_NAME_LOCATION + TEXT_TYPE + COMMA_SEP +
+            OccasionTable.COLUMN_NAME_NOTES + TEXT_TYPE +
+            " )";
+
+    private static final String SQL_DELETE_OCCASION_ENTRIES =
+            "DROP TABLE IF EXISTS " + OccasionTable.TABLE_NAME;
+
+
 }

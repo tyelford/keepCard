@@ -22,4 +22,11 @@
     <string name="frontPhotoButtonText">Photo of Front</string>
     <string name="inLeftPhotoButtonText">Photo of Inside Left</string>
     <string name="inRightPhotoButtonText">Photo of Inside Right</string>
+    <string name="title_activity_database_test">DatabaseTest</string>
+
+    <!--Splahs Strings-->
+    <string name="splash_my_occasion_button">My Occasions</string>
+    <string name="splash_my_givers_button">My Givers</string>
+    <string name="splash_add_card_button">Add a new card</string>
+    <string name="splash_add_occasion_button">Add an Occasion</string>
 </resources>

@@ -1,17 +1,22 @@
 package com.tyelford.cardkeeper;
 
-import android.app.ActionBar;
+/*
+This class is used to display a list of the unique card givers
+It will show each card giver in a list form and also show
+the most recent three front of card pictures in a small bitmap
+
+Author: Tyson Elford
+ */
+
+
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.Layout;
-import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,16 +26,15 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tyelford.cardkeeper.data.Card;
 import com.tyelford.cardkeeper.data.CardDBHelper;
+import com.tyelford.cardkeeper.data.NoGiversException;
 
 import java.io.File;
-import java.util.ArrayList;
 
 
 public class PersonActivity extends Activity {
@@ -40,21 +44,27 @@ public class PersonActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person);
 
-        //setupMenu();
-
-        //1. Get the names of all the unique givers
-        String[] uniqueGivers = getUniqueCardGivers();
-        //Loop through the unique givers and
-        //1.Find the first three Cover photos from that Giver
-        //2.Draw the row for the Unique Giver
-        for(int i = 0; i < uniqueGivers.length; i++){
-            //Find the first three photos for a giver
-            String[] photos = getThreePhotosPerGiver(uniqueGivers[i]);
-            //Draw the row
-            drawRow(uniqueGivers[i], photos);
-        }
         //Lock the screen in portrait mode
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        //1. Get the names of all the unique givers
+        String[] uniqueGivers;
+        try {
+            uniqueGivers = getUniqueCardGivers();
+
+            //Loop through the unique givers and draw them to the screen
+            for(int i = 0; i < uniqueGivers.length; i++) {
+                //Find the first three photos for a giver
+                String[] photos = getThreePhotosPerGiver(uniqueGivers[i]);
+                //Draw the row
+                drawRow(uniqueGivers[i], photos);
+            }
+
+        }catch(NoGiversException e){
+            e.printStackTrace();
+            //Print the No Cards Yet Message
+            noGiversMessage();
+        }
     }
 
 
@@ -62,9 +72,6 @@ public class PersonActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_person, menu);
-
-
-
         return true;
     }
 
@@ -103,7 +110,7 @@ public class PersonActivity extends Activity {
     }
 
     //Method to get the unique card givers
-    private String[] getUniqueCardGivers(){
+    private String[] getUniqueCardGivers() throws NoGiversException{
         //Do Database Query here
         CardDBHelper readCard = new CardDBHelper(this);
         return readCard.getUniqueCardGivers();
@@ -260,6 +267,20 @@ public class PersonActivity extends Activity {
 
         Bitmap bitmap = BitmapFactory.decodeFile(photoPath, bmOptions);
         mImageView.setImageBitmap(bitmap);
+    }
+
+    private void noGiversMessage(){
+        TextView tv = new TextView(this);
+        tv.setText("There is no cards to show yet");
+        tv.setLayoutParams(new TableLayout.LayoutParams(
+                0,
+                TableLayout.LayoutParams.MATCH_PARENT));
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+        tv.setGravity(Gravity.CENTER_HORIZONTAL);
+
+        //Add the textview to the screen
+        LinearLayout ll = (LinearLayout)findViewById(R.id.mainVertLayout);
+        ll.addView(tv);
     }
 
     private void loadGiverActivity(String dasGiver){

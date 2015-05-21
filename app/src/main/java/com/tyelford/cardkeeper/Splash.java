@@ -3,6 +3,7 @@ package com.tyelford.cardkeeper;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -53,12 +54,6 @@ public class Splash extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    //Method to load the Giver Activity
-    public void loadGiver(View view){
-        Intent intent = new Intent(this, Giver.class);
-        startActivity(intent);
-    }
-
     public void loadPersons(View view){
         Intent intent = new Intent(this, PersonActivity.class);
         startActivity(intent);
@@ -69,9 +64,14 @@ public class Splash extends Activity {
         startActivity(intent);
     }
 
+    public void loadOccasions(View view){
+
+    }
+
     public void deleteDatabase(View view){
         CardDBHelper deleteDB = new CardDBHelper(this);
         deleteDB.deleteDB();
         Toast.makeText(this, "You have delete all database records", Toast.LENGTH_LONG).show();
     }
+
 }

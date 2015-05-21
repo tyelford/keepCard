@@ -33,12 +33,20 @@
         <!--android:text="Who gave it to you?"-->
         <!--android:textAppearance="?android:attr/textAppearanceMedium" />-->
 
-        <EditText
-            android:id="@+id/insertGiver"
+        <!--<EditText-->
+            <!--android:id="@+id/insertGiver"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="10dp"-->
+            <!--android:autoText="false"-->
+            <!--android:hint="@string/insertGiverHint"-->
+            <!--android:inputType="textCapSentences" />-->
+
+        <AutoCompleteTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/insertGiverAutoCompleteTextView"
             android:layout_marginBottom="10dp"
-            android:autoText="false"
             android:hint="@string/insertGiverHint"
             android:inputType="textCapSentences" />
 

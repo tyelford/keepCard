@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tyelford.cardkeeper">
+    package="com.tyelford.cardkeeper" >
 
     <uses-sdk
         android:minSdkVersion="11"
         android:targetSdkVersion="21" />
 
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
@@ -16,6 +15,7 @@
     <uses-feature
         android:name="android.hardware.camera2"
         android:required="false" />
+
     <!-- <android:uses-permission -->
     <!-- android:name="android.permission.WRITE_EXTERNAL_STORAGE" -->
     <!-- android:maxSdkVersion="18" /> -->
@@ -27,34 +27,26 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
-            android:name=".Giver"
-            android:label="@string/app_name"
-            android:parentActivityName=".Splash">
+            android:name=".CardActivity"
+            android:label="@string/title_activity_card"
+            android:parentActivityName=".Splash" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Splash" />
         </activity>
         <activity
-            android:name=".CardActivity"
-            android:label="@string/title_activity_card"
-            android:parentActivityName=".Giver">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Giver" />
-        </activity>
-        <activity
             android:name=".FullScreenCard"
             android:label="@string/title_activity_full_screen_card"
-            android:parentActivityName=".CardActivity">
+            android:parentActivityName=".CardActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.tyelford.cardkeeper.CardActivity" />
         </activity>
         <activity
             android:name=".Splash"
-            android:label="@string/title_activity_splash">
+            android:label="@string/title_activity_splash" >
             <intent-filter>
                 t
                 <action android:name="android.intent.action.MAIN" />
@@ -65,7 +57,7 @@
         <activity
             android:name=".PersonActivity"
             android:label="@string/title_activity_person"
-            android:parentActivityName=".Splash">
+            android:parentActivityName=".Splash" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.tyelford.cardkeeper.Splash" />
@@ -73,7 +65,7 @@
         <activity
             android:name=".AddCardActivity"
             android:label="@string/title_activity_add_card"
-            android:parentActivityName=".Splash">
+            android:parentActivityName=".Splash" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.tyelford.cardkeeper.Splash" />

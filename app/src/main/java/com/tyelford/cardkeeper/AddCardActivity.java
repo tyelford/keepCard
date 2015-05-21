@@ -15,6 +15,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 
 import com.tyelford.cardkeeper.data.Card;
 import com.tyelford.cardkeeper.data.CardDBHelper;
+import com.tyelford.cardkeeper.data.NoGiversException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -43,6 +46,10 @@ public class AddCardActivity extends Activity {
     String inRightPhotoPath;
     String presentPhotoPath;
 
+    //Info from previous Cards
+    String[] previousGivers;
+    String[] previousOccasions;
+
     //Card to be Saved
     Card newCard;
 
@@ -53,6 +60,18 @@ public class AddCardActivity extends Activity {
 
         //Lock the screen in portrait mode
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        //Get the givers and store them for now
+        try{
+            previousGivers = getPreviousGivers();
+        }catch(NoGiversException e){
+            //This is ok, just means there is no previous givers
+            previousGivers = null;
+        }
+
+        //Populate the AutoCompleteTextView for givers
+        fillPreviousGivers();
+
     }
 
 
@@ -76,6 +95,20 @@ public class AddCardActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    //Get a list of unique previous card givers
+    private String[] getPreviousGivers() throws NoGiversException{
+        CardDBHelper readCard = new CardDBHelper(this);
+        return readCard.getUniqueCardGivers();
+    }
+
+    //Populate the previous givers in the AutoCompleteTextView
+    private void fillPreviousGivers(){
+        AutoCompleteTextView actv = (AutoCompleteTextView)findViewById(R.id.insertGiverAutoCompleteTextView);
+        ArrayAdapter<String> ad = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, previousGivers);
+        actv.setAdapter(ad);
+
     }
 
     //Take a picture of the front of the card
@@ -244,7 +277,7 @@ public class AddCardActivity extends Activity {
         //Save the Card
         newCard = new Card();
 
-        newCard.setCardGiver(((TextView) findViewById(R.id.insertGiver)).getText().toString());
+        newCard.setCardGiver(((TextView) findViewById(R.id.insertGiverAutoCompleteTextView)).getText().toString());
         newCard.setCardFrontImg(frontPhotoPath);
         newCard.setCardInLeftImg(inLeftPhotoPath);
         newCard.setCardInRightImg(inRightPhotoPath);
