@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.tyelford.cardkeeper.data.CardDBContract.CardTable;
 import com.tyelford.cardkeeper.data.CardDBContract.OccasionTable;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -17,7 +16,7 @@ import java.util.ArrayList;
  */
 public class CardDBHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "CardDB.db";
 
     public CardDBHelper(Context context){
@@ -65,6 +64,31 @@ public class CardDBHelper extends SQLiteOpenHelper {
 
         s = thisUniqueGivers.toArray(s);
         return s;
+    }
+
+    //Method to return all occasions
+    public String[] getAllOccasions() throws NoOccasionException{
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(SQL_SELECT_ALL_OCCASIONS, null);
+
+        ArrayList<String> thisOccasions = new ArrayList<String>();
+
+        if(cursor != null && cursor.getCount() > 0){
+            cursor.moveToFirst();
+            do{
+                thisOccasions.add(cursor.getString(1));
+            }while(cursor.moveToNext());
+        }
+
+        String[] s = new String[thisOccasions.size()];
+
+        if(s.length == 0)
+            throw new NoOccasionException("NoOccasionsInTheDatabase");
+
+        s = thisOccasions.toArray(s);
+        return s;
+
     }
 
     //Method to return three photos for a given giver - Path on Disk only
@@ -117,7 +141,7 @@ public class CardDBHelper extends SQLiteOpenHelper {
         card.setCardInRightImg(cursor.getString(4));
         card.setPresentImg(cursor.getString(5));
         card.setPresentComments(cursor.getString(6));
-        card.setOccasion(new Occasion());
+        card.setOccasion(cursor.getString(7));
         card.setAddGivers(cursor.getString(8));
 
         return card;
@@ -128,8 +152,6 @@ public class CardDBHelper extends SQLiteOpenHelper {
         //Get a reference to the database
         SQLiteDatabase db = this.getWritableDatabase();
 
-        //Increment to the next available card
-
         //create the content values to add
         ContentValues values = new ContentValues();
         values.put(CardTable.COLUMN_NAME_GIVER, card.getCardGiver());
@@ -138,13 +160,26 @@ public class CardDBHelper extends SQLiteOpenHelper {
         values.put(CardTable.COLUMN_NAME_P_IN_RIGHT, card.getCardInRightImg());
         values.put(CardTable.COLUMN_NAME_P_PRES, card.getPresentImg());
         values.put(CardTable.COLUMN_NAME_C_PRES, "");
-        values.put(CardTable.COLUMN_NAME_OCC_ID, "New Occasion");
+        values.put(CardTable.COLUMN_NAME_OCC_ID, card.getOccasion());
         values.put(CardTable.COLUMN_NAME_ADD_GIVERS, card.getAddGivers());
 
         db.insert(CardTable.TABLE_NAME, null, values);
-
         db.close();
+    }
 
+    public void insertOccasion(Occasion occ){
+        //Get a reference to the database
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        //Create the content values to add
+        ContentValues values = new ContentValues();
+        values.put(CardDBContract.OccasionTable.COLUMN_NAME_OCCASION, occ.getOccName());
+        values.put(CardDBContract.OccasionTable.COLUMN_NAME_DATE, occ.getOccDate());
+        values.put(CardDBContract.OccasionTable.COLUMN_NAME_LOCATION, occ.getOccLocation());
+        values.put(CardDBContract.OccasionTable.COLUMN_NAME_NOTES, occ.getOccNotes());
+
+        db.insert(CardDBContract.OccasionTable.TABLE_NAME, null, values);
+        db.close();
     }
 
 
@@ -207,21 +242,30 @@ public class CardDBHelper extends SQLiteOpenHelper {
     private static final String SQL_DELETE_ALL_CARD_ROWS =
             "DELETE FROM " + CardTable.TABLE_NAME;
 
-
     /****************************************/
     //OCCASION TABLE STRINGS//
 
+    //private static final String TEXT_TYPE = " TEXT";
+    //private static final String COMMA_SEP = ",";
+
     private static final String SQL_CREATE_OCCASION_ENTRIES =
             "CREATE TABLE " + OccasionTable.TABLE_NAME + " (" +
-            OccasionTable._ID + " INTEGER PRIMARY KEY," +
-            OccasionTable.COLUMN_NAME_OCCASION + TEXT_TYPE + COMMA_SEP +
-            OccasionTable.COLUMN_NAME_DATE + TEXT_TYPE + COMMA_SEP +
-            OccasionTable.COLUMN_NAME_LOCATION + TEXT_TYPE + COMMA_SEP +
-            OccasionTable.COLUMN_NAME_NOTES + TEXT_TYPE +
-            " )";
+                    OccasionTable._ID + " INTEGER PRIMARY KEY," +
+                    OccasionTable.COLUMN_NAME_OCCASION + TEXT_TYPE + COMMA_SEP +
+                    OccasionTable.COLUMN_NAME_DATE + TEXT_TYPE + COMMA_SEP +
+                    OccasionTable.COLUMN_NAME_LOCATION + TEXT_TYPE + COMMA_SEP +
+                    OccasionTable.COLUMN_NAME_NOTES + TEXT_TYPE +
+                    " )";
 
     private static final String SQL_DELETE_OCCASION_ENTRIES =
-            "DROP TABLE IF EXISTS " + OccasionTable.TABLE_NAME;
+            "DROP TABLE IF EXISTS " + CardDBContract.OccasionTable.TABLE_NAME;
 
+    private static final String SQL_SELECT_ALL_OCCASIONS =
+            "SELECT " +
+                    OccasionTable._ID + COMMA_SEP +
+                    OccasionTable.COLUMN_NAME_OCCASION + COMMA_SEP +
+                    OccasionTable.COLUMN_NAME_DATE +
+                    " FROM " + OccasionTable.TABLE_NAME +
+                    " ORDER BY " + OccasionTable.COLUMN_NAME_DATE + " DESC";
 
 }

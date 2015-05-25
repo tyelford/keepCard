@@ -54,6 +54,10 @@ public class PersonActivity extends Activity {
 
             //Loop through the unique givers and draw them to the screen
             for(int i = 0; i < uniqueGivers.length; i++) {
+                //Check for nulls in database
+                if(uniqueGivers[i] == null)
+                    continue;
+
                 //Find the first three photos for a giver
                 String[] photos = getThreePhotosPerGiver(uniqueGivers[i]);
                 //Draw the row
@@ -208,22 +212,6 @@ public class PersonActivity extends Activity {
             mainHor.addView(imgHor);
         }
 
-
-//        //Add the Images to the Horizontal Layout
-//        ImageView img = new ImageView(this);
-//        img.setImageResource(R.drawable.logo1);
-//        img.setLayoutParams(new ViewGroup.LayoutParams(toDp(30), toDp(30)));
-//
-//
-//        ImageView img2 = new ImageView(this);
-//        img2.setImageResource(R.drawable.logo1);
-//        img2.setLayoutParams(new ViewGroup.LayoutParams(toDp(30), toDp(30)));
-//
-//        //Add images to Layout
-//        imgHor.addView(img);
-//        imgHor.addView(img2);
-
-
         //Add vertical divider
         View div = new View(this);
         div.setBackgroundColor(0xFFC2BEBF);
@@ -285,6 +273,6 @@ public class PersonActivity extends Activity {
 
     private void loadGiverActivity(String dasGiver){
         //Load up the next activity to display all the cards from a single giver
-
+        //TODO
     }
 }

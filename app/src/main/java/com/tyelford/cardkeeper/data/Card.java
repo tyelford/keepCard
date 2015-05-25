@@ -15,7 +15,7 @@ public class Card {
     private String presentImg;
     private String presentComments;
     private String cardComments;
-    private Occasion occasion;
+    private String occasion;
     private String addGivers;
 
     //Deprecated
@@ -29,14 +29,16 @@ public class Card {
     public Card(){
     }
 
+
     //Full constructor
-    public Card(String cardID, String cardGiver, String cardFrontImg, String cardInLeftImg, String cardInRightImg, String presentImg, String presentComments, String cardComments, String addGivers){
+    public Card(String cardID, String cardGiver, String cardFrontImg, String cardInLeftImg, String cardInRightImg, String presentImg, String presentComments, String occasion, String cardComments, String addGivers){
         this.cardGiver = cardGiver;
         this.cardFrontImg = cardFrontImg;
         this.cardInLeftImg = cardInLeftImg;
         this.cardInRightImg = cardInRightImg;
         this.cardComments = cardComments;
         this.presentImg = presentImg;
+        this.occasion = occasion;
         this.presentComments = presentComments;
         this.addGivers = addGivers;
         this.cardID = cardID;
@@ -114,20 +116,20 @@ public String getCardID() {
         this.cardComments = cardComments;
     }
 
-    public Occasion getOccasion() {
-        return occasion;
-    }
-
-    public void setOccasion(Occasion occasion) {
-        this.occasion = occasion;
-    }
-
     public String getAddGivers() {
         return addGivers;
     }
 
     public void setAddGivers(String addGivers) {
         this.addGivers = addGivers;
+    }
+
+    public String getOccasion(){
+        return occasion;
+    }
+
+    public void setOccasion(String occasion) {
+        this.occasion = occasion;
     }
 
 

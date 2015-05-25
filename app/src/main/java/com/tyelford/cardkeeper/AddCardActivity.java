@@ -39,6 +39,7 @@ public class AddCardActivity extends Activity {
     static final int REQUEST_IMAGE_CAPTURE_LEFT = 2;
     static final int REQUEST_IMAGE_CAPTURE_RIGHT = 3;
     static final int REQUEST_IMGAE_CAPTURE_PRESENT = 4;
+    static final int REQUEST_NEW_OCCASION = 5;
 
     //Path of the three photos
     String frontPhotoPath;
@@ -47,7 +48,7 @@ public class AddCardActivity extends Activity {
     String presentPhotoPath;
 
     //Info from previous Cards
-    String[] previousGivers;
+    //String[] previousGivers;
     String[] previousOccasions;
 
     //Card to be Saved
@@ -61,16 +62,17 @@ public class AddCardActivity extends Activity {
         //Lock the screen in portrait mode
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        String[] previousGivers = null;
         //Get the givers and store them for now
         try{
             previousGivers = getPreviousGivers();
         }catch(NoGiversException e){
             //This is ok, just means there is no previous givers
-            previousGivers = null;
+            previousGivers = new String[]{};
         }
 
         //Populate the AutoCompleteTextView for givers
-        fillPreviousGivers();
+        fillPreviousGivers(previousGivers);
 
     }
 
@@ -104,7 +106,9 @@ public class AddCardActivity extends Activity {
     }
 
     //Populate the previous givers in the AutoCompleteTextView
-    private void fillPreviousGivers(){
+    private void fillPreviousGivers(String[] previousGivers){
+        if(previousGivers.length == 0)
+            return;
         AutoCompleteTextView actv = (AutoCompleteTextView)findViewById(R.id.insertGiverAutoCompleteTextView);
         ArrayAdapter<String> ad = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, previousGivers);
         actv.setAdapter(ad);
@@ -218,6 +222,13 @@ public class AddCardActivity extends Activity {
         if(requestCode == REQUEST_IMGAE_CAPTURE_PRESENT && resultCode == RESULT_OK){
             loadPic(presentPhotoPath, (ImageView)findViewById(R.id.imgViewPresent));
         }
+
+        //Finish from AddOccasionActivity
+        if(requestCode == REQUEST_NEW_OCCASION && resultCode == RESULT_OK){
+            String newOcc = data.getStringExtra("newOcc");
+            AutoCompleteTextView occ = (AutoCompleteTextView)findViewById(R.id.insertOccasion);
+            occ.setText(newOcc);
+        }
     }
 
     //Method used to create a collision proof image file name
@@ -277,11 +288,12 @@ public class AddCardActivity extends Activity {
         //Save the Card
         newCard = new Card();
 
-        newCard.setCardGiver(((TextView) findViewById(R.id.insertGiverAutoCompleteTextView)).getText().toString());
+        newCard.setCardGiver(((AutoCompleteTextView) findViewById(R.id.insertGiverAutoCompleteTextView)).getText().toString());
         newCard.setCardFrontImg(frontPhotoPath);
         newCard.setCardInLeftImg(inLeftPhotoPath);
         newCard.setCardInRightImg(inRightPhotoPath);
         newCard.setPresentImg(presentPhotoPath);
+        newCard.setOccasion(((AutoCompleteTextView) findViewById(R.id.insertOccasion)).getText().toString());
         newCard.setCardComments(((TextView) findViewById(R.id.insertComments)).getText().toString());
         newCard.setAddGivers(((TextView) findViewById(R.id.insertAddGivers)).getText().toString());
 
@@ -299,23 +311,20 @@ public class AddCardActivity extends Activity {
     }
 
 
-    //Method to respond to a present being added
-//    public void presentAdded(View view){
-//
-//        //Is the view now checked?
-//        boolean checked = ((CheckBox) view).isChecked();
-//
-//        //Check which checkbox was clicked
-//        switch (view.getId()){
-//            case R.id.addPresentCheckBox:
-//                if(checked)
-//                    //Add some code for adding a present
-//                    Toast.makeText(this, "Checkbox ticked", Toast.LENGTH_SHORT).show();
-//                else
-//                    //Add some code to remove a present
-//                    Toast.makeText(this, "Checkbox unticked", Toast.LENGTH_SHORT).show();
-//                break;
-//            //Add more checkboxes here if needed
-//        }
-//    }
+    //Create a new Occasion from this Activity
+    public void newOccFromCard(View view){
+        //Grab all the typed info and pass it to the new Occasion Activity
+        //So when it return they don't have to retype
+        Intent intent = new Intent(this, AddOccasionActivity.class);
+        intent.putExtra("FromWhere", 2);
+        intent.putExtra("cardGiver", ((AutoCompleteTextView) findViewById(R.id.insertGiverAutoCompleteTextView)).getText().toString());
+        intent.putExtra("cardFrontImg", frontPhotoPath);
+        intent.putExtra("cardInLeftImg", inLeftPhotoPath);
+        intent.putExtra("cardInRightImg", inRightPhotoPath);
+        intent.putExtra("cardPresentImg", presentPhotoPath);
+        intent.putExtra("cardComments", ((TextView) findViewById(R.id.insertComments)).getText().toString());
+        intent.putExtra("cardAddGivers", ((TextView) findViewById(R.id.insertAddGivers)).getText().toString());
+
+        startActivityForResult(intent, REQUEST_NEW_OCCASION);
+    }
 }

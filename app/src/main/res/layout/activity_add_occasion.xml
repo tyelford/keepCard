@@ -1,0 +1,66 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tyelford.cardkeeper.AddOccasionActivity">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:weightSum="1">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/insertOccasionName"
+            android:layout_marginBottom="10dp"
+            android:hint="@string/insertOccasionNameHint"
+            android:inputType="textCapSentences"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/insertOccasionLocation"
+            android:layout_marginBottom="10dp"
+            android:hint="@string/insertOccasionLocationHint"
+            android:inputType="textCapSentences"
+            />
+
+        <DatePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/occasionDatePicker"
+            android:layout_gravity="center_horizontal"
+            android:calendarViewShown="false"
+            android:layout_marginBottom="10dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/insertOccasionNotes"
+            android:hint="@string/insertOccasionNotesHint"
+            android:inputType="textMultiLine|textCapSentences"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/saveOccasion"
+            android:layout_gravity="right"
+            android:layout_marginTop="10dp"
+            android:layout_weight="0.05"
+            android:onClick="saveOccasion"
+            android:text="@string/saveButtonText"/>
+
+
+
+    </LinearLayout>
+
+</ScrollView>

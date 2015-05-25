@@ -1,5 +1,12 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.tyelford.cardkeeper.PersonActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -8,7 +15,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:id="@+id/mainVertLayout"
-    tools:context="com.tyelford.cardkeeper.PersonActivity">
+    >
 
     <!--&lt;!&ndash;Create a horizontal Linear Layout with one TextView and upto 3 ImageViews&ndash;&gt;-->
     <!--<LinearLayout-->
@@ -145,3 +152,4 @@
     <!--<View style="@style/Divider" />-->
 
 </LinearLayout>
+</ScrollView>
