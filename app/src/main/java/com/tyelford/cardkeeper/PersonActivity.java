@@ -168,9 +168,12 @@ public class PersonActivity extends Activity {
                     LinearLayout ll = (LinearLayout) view;
                     ll.setBackgroundColor(bgColour);
                     TextView textV = (TextView)ll.getChildAt(0);
-//                    Toast.makeText(PersonActivity.this, textV.getText(), Toast.LENGTH_LONG).show();
                     loadGiverActivity(textV.getText().toString());
                     return true;
+                }
+                if(motionEvent.getAction() == MotionEvent.ACTION_CANCEL){
+                    LinearLayout ll = (LinearLayout) view;
+                    ll.setBackgroundColor(bgColour);
                 }
                 return false;
             }
@@ -273,6 +276,9 @@ public class PersonActivity extends Activity {
 
     private void loadGiverActivity(String dasGiver){
         //Load up the next activity to display all the cards from a single giver
-        //TODO
+        Intent intent = new Intent(this, SingleGiverActivity.class);
+        intent.putExtra("clickedGiver", dasGiver);
+        startActivity(intent);
+
     }
 }

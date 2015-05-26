@@ -148,6 +148,36 @@ public class CardDBHelper extends SQLiteOpenHelper {
 
     }
 
+    public Card[] getCardsFromGiver(String giver){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(SQL_SELECT_CARDS_FROM_GIVER, new String[]{giver});
+        if(cursor != null){
+            cursor.moveToFirst();
+        }
+
+        ArrayList<Card> cards = new ArrayList<Card>();
+
+        do{
+            //Load up the card into a Card Object
+            Card card = new Card();
+            card.setCardID(cursor.getString(0));
+            card.setCardGiver(cursor.getString(1));
+            card.setCardFrontImg(cursor.getString(2));
+            card.setCardInLeftImg(cursor.getString(3));
+            card.setCardInRightImg(cursor.getString(4));
+            card.setPresentImg(cursor.getString(5));
+            card.setPresentComments(cursor.getString(6));
+            card.setOccasion(cursor.getString(7));
+            card.setAddGivers(cursor.getString(8));
+            cards.add(card);
+        }while(cursor.moveToNext());
+
+        Card[] myCards = new Card[cards.size()];
+        myCards = cards.toArray(myCards);
+        return myCards;
+    }
+
     public void insertCard(Card card){
         //Get a reference to the database
         SQLiteDatabase db = this.getWritableDatabase();
@@ -235,6 +265,13 @@ public class CardDBHelper extends SQLiteOpenHelper {
              " WHERE " + CardTable.COLUMN_NAME_GIVER +
              " = ?" +
              " ORDER BY " + CardTable._ID + " DESC";
+
+    private static final String SQL_SELECT_CARDS_FROM_GIVER =
+            SQL_SELECT_ALL_CARD_COLUMNS +
+            " WHERE " + CardTable.COLUMN_NAME_GIVER +
+            " = ?" +
+            " ORDER BY " + CardTable._ID + " DESC";
+
 
     private static final String SQL_DELETE_CARD_ENTRIES =
             "DROP TABLE IF EXISTS " + CardTable.TABLE_NAME;

@@ -15,6 +15,7 @@ import android.widget.ActionMenuView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tyelford.cardkeeper.data.CardDBHelper;
 import com.tyelford.cardkeeper.data.NoOccasionException;
@@ -122,6 +123,10 @@ public class OccasionsActivity extends Activity {
                     TextView tv = (TextView)ll.getChildAt(0);
                     loadOccasionActivity(tv.getText().toString());
                     return true;
+                }
+                if(motionEvent.getAction() == MotionEvent.ACTION_CANCEL){
+                    LinearLayout ll = (LinearLayout) view;
+                    ll.setBackgroundColor(bgColour);
                 }
                 return false;
             }
