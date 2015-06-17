@@ -2,6 +2,9 @@ package com.tyelford.cardkeeper;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -19,6 +22,9 @@ import android.widget.Toast;
 
 import com.tyelford.cardkeeper.data.Card;
 import com.tyelford.cardkeeper.data.CardDBHelper;
+
+import java.io.File;
+import java.util.LinkedList;
 
 
 public class SingleGiverActivity extends Activity {
@@ -38,6 +44,9 @@ public class SingleGiverActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_giver);
+
+        //Lock the screen in portrait mode
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         //Get the screen size in pixels
         Display display = getWindowManager().getDefaultDisplay();
@@ -63,8 +72,59 @@ public class SingleGiverActivity extends Activity {
         if(dasGiverCards.length == 0){
             drawNothing();
         }
-        //Draw the cards on the screen
-        drawCards();
+
+        //Move the Array to a LinkedList to make it easier
+        //to work with
+        LinkedList<Card> theseCards = new LinkedList<Card>();
+        for(int i = 0; i < dasGiverCards.length; i++){
+            theseCards.addLast(dasGiverCards[i]);
+        }
+
+        //Use LinkedList as a queue, popping 3 off at a time
+        //to add to the horizontal layout of the next method
+        while(theseCards.size() > 0){
+
+            //Check for if there is 2 cards left
+            if(theseCards.size() == 2){
+                Card[] threeCards = new Card[2];
+                threeCards[0] = theseCards.removeFirst();
+                threeCards[1] = theseCards.removeFirst();
+
+                drawCards(threeCards);
+                break;
+            }
+
+            //Check for if there is 2 cards left
+            if(theseCards.size() == 1){
+                Card[] threeCards = new Card[1];
+                threeCards[0] = theseCards.removeFirst();
+
+                drawCards(threeCards);
+                break;
+            }
+
+            Card[] threeCards = new Card[3];
+            threeCards[0] = theseCards.removeFirst();
+            threeCards[1] = theseCards.removeFirst();
+            threeCards[2] = theseCards.removeFirst();
+
+            drawCards(threeCards);
+        }
+
+
+//        for(int i = 0; i < dasGiverCards.length; i+=3) {
+//            //Create an array of length 3 and send cards 3 at a time
+//            //to preserve the row look
+//            Card[] threeCards = new Card[3];
+//            if(dasGiverCards.length >= 3) {
+//                threeCards[i] = dasGiverCards[i];
+//                threeCards[i + 1] = dasGiverCards[i + 1];
+//                threeCards[i + 2] = dasGiverCards[i + 2];
+//            }
+//
+//            //Draw the cards on the screen
+//            drawCards(threeCards);
+//        }
     }
 
     @Override
@@ -97,7 +157,7 @@ public class SingleGiverActivity extends Activity {
     }
 
     //Draw the cards to the screen
-    private void drawCards(){
+    private void drawCards(Card cards[]){
         //Get the main vertical layout
         LinearLayout mainVertLayout = (LinearLayout)findViewById(R.id.mainVertThisGiver);
 
@@ -110,10 +170,17 @@ public class SingleGiverActivity extends Activity {
         );
 
         //Load up the front of the card as the 'backgroud' of the tile
-        ImageView bg = new ImageView(this);
-        bg.setLayoutParams(new ViewGroup.LayoutParams(tileX, tileY));
-        newHorLayout.addView(bg);
-        loadPic(new String("path"), bg);
+        for(int i = 0; i < cards.length; i++){
+            File file = new File(cards[i].getCardFrontImg());
+            ImageView bg = new ImageView(this);
+            bg.setLayoutParams(new ViewGroup.LayoutParams(tileX, tileY));
+            newHorLayout.addView(bg);
+            loadPic(file.getAbsolutePath(), bg);
+        }
+
+
+        //Add the horizonal layout to the main vertical layout
+        mainVertLayout.addView(newHorLayout, layoutParams);
     }
 
     //No Cards
@@ -133,6 +200,23 @@ public class SingleGiverActivity extends Activity {
 
     //Helper method to load a picture from the file
     private void loadPic(String photoPath, ImageView mImageView){
-        
+
+        //Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(photoPath, bmOptions);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        //Determine how much to scale down the image
+        int scaleFactor = Math.min(photoW / tileX, photoH / tileY);
+
+        //Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(photoPath, bmOptions);
+        mImageView.setImageBitmap(bitmap);
     }
 }
