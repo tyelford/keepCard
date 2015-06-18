@@ -29,6 +29,8 @@ import java.util.LinkedList;
 
 public class SingleGiverActivity extends Activity {
 
+    private static final int SCREEN_SCALER = 3;
+
     //Screen Dimensions
     int screenW;
     int screenH;
@@ -56,8 +58,8 @@ public class SingleGiverActivity extends Activity {
         screenH = size.y;
 
         //Make the tile size
-        tileX = screenW / 3;
-        tileY = screenH / 3;
+        tileX = screenW / SCREEN_SCALER;
+        tileY = screenH / SCREEN_SCALER;
 
         //Get the clicked Giver from the previous activity
         dasGiver = getIntent().getExtras().getString("clickedGiver");
@@ -171,11 +173,23 @@ public class SingleGiverActivity extends Activity {
 
         //Load up the front of the card as the 'backgroud' of the tile
         for(int i = 0; i < cards.length; i++){
-            File file = new File(cards[i].getCardFrontImg());
-            ImageView bg = new ImageView(this);
-            bg.setLayoutParams(new ViewGroup.LayoutParams(tileX, tileY));
-            newHorLayout.addView(bg);
-            loadPic(file.getAbsolutePath(), bg);
+            //Check that we have a front image of the card first
+            String frontPath = cards[i].getCardFrontImg();
+            if(frontPath == "" || frontPath == null){
+                ImageView ivFiller = new ImageView(this);
+                ivFiller.setImageResource(R.drawable.greybox);
+                ivFiller.setLayoutParams(new ViewGroup.LayoutParams(
+                        tileX, tileY
+                ));
+                newHorLayout.addView(ivFiller);
+            }
+            else {
+                File file = new File(cards[i].getCardFrontImg());
+                ImageView bg = new ImageView(this);
+                bg.setLayoutParams(new ViewGroup.LayoutParams(tileX, tileY));
+                newHorLayout.addView(bg);
+                loadPic(file.getAbsolutePath(), bg);
+            }
         }
 
 
