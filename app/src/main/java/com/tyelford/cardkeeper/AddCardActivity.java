@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.tyelford.cardkeeper.data.Card;
 import com.tyelford.cardkeeper.data.CardDBHelper;
 import com.tyelford.cardkeeper.data.NoGiversException;
+import com.tyelford.cardkeeper.data.NoOccasionException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -49,7 +50,7 @@ public class AddCardActivity extends Activity {
 
     //Info from previous Cards
     //String[] previousGivers;
-    String[] previousOccasions;
+    //String[] previousOccasions;
 
     //Card to be Saved
     Card newCard;
@@ -63,16 +64,22 @@ public class AddCardActivity extends Activity {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         String[] previousGivers = null;
+        String[] previousOccasions = null;
         //Get the givers and store them for now
         try{
             previousGivers = getPreviousGivers();
+            previousOccasions = getPreviousOccasions();
         }catch(NoGiversException e){
             //This is ok, just means there is no previous givers
             previousGivers = new String[]{};
+        }catch(NoOccasionException ex){
+            previousOccasions = new String[]{};
         }
 
         //Populate the AutoCompleteTextView for givers
         fillPreviousGivers(previousGivers);
+        //Populate the AutoCompleteTextView for the occasions
+        fillPreviousOccasions(previousOccasions);
 
     }
 
@@ -105,6 +112,12 @@ public class AddCardActivity extends Activity {
         return readCard.getUniqueCardGivers();
     }
 
+    //Get a ilst of the provious occasion
+    private String[] getPreviousOccasions() throws NoOccasionException{
+        CardDBHelper readCard = new CardDBHelper(this);
+        return  readCard.getAllOccasions();
+    }
+
     //Populate the previous givers in the AutoCompleteTextView
     private void fillPreviousGivers(String[] previousGivers){
         if(previousGivers.length == 0)
@@ -113,6 +126,16 @@ public class AddCardActivity extends Activity {
         ArrayAdapter<String> ad = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, previousGivers);
         actv.setAdapter(ad);
 
+    }
+
+    //Populate the previous occaions in the AutoCompleteTextView
+    private void fillPreviousOccasions(String[] previousOccasions) {
+        if (previousOccasions.length == 0) {
+            return;
+        }
+        AutoCompleteTextView actv = (AutoCompleteTextView)findViewById(R.id.insertOccasion);
+        ArrayAdapter<String> ad = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, previousOccasions);
+        actv.setAdapter(ad);
     }
 
     //Take a picture of the front of the card
