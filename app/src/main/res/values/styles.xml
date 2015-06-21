@@ -5,6 +5,15 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="CardBoxCustom" parent="android:Theme.Holo.Light">
+        <item name="android:actionBarStyle">@style/CardBoxActionBar</item>
+    </style>
+
+    <!--CardBoxActionBarStyle-->
+    <style name="CardBoxActionBar" parent="android:Widget.Holo.ActionBar.Solid">
+        <item name="android:background">#00CC66</item>
+    </style>
+
     <!--Divider Style-->
     <style name="Divider">
         <item name="android:layout_width">match_parent</item>
