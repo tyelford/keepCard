@@ -68,11 +68,16 @@ public class AddCardActivity extends Activity {
         //Get the givers and store them for now
         try{
             previousGivers = getPreviousGivers();
-            previousOccasions = getPreviousOccasions();
         }catch(NoGiversException e){
             //This is ok, just means there is no previous givers
             previousGivers = new String[]{};
-        }catch(NoOccasionException ex){
+        }
+        //Get the occasions and store them for now
+        try{
+            previousOccasions = getPreviousOccasions();
+        }
+        catch(NoOccasionException ex){
+            //No Occasions yet
             previousOccasions = new String[]{};
         }
 

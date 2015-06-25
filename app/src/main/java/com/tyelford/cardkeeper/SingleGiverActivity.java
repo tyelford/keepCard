@@ -8,12 +8,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -29,7 +31,7 @@ import java.util.LinkedList;
 
 public class SingleGiverActivity extends Activity {
 
-    private static final int SCREEN_SCALER = 3;
+    private static final int SCREEN_SCALER = 2;
 
     //Screen Dimensions
     int screenW;
@@ -41,6 +43,8 @@ public class SingleGiverActivity extends Activity {
     String dasGiver;
     //This Givers Cards
     Card[] dasGiverCards;
+    //Card counter side counter, left or right side
+    boolean drawLeftSide = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,45 +77,52 @@ public class SingleGiverActivity extends Activity {
         //Check for cards
         if(dasGiverCards.length == 0){
             drawNothing();
+            return;
         }
 
-        //Move the Array to a LinkedList to make it easier
-        //to work with
-        LinkedList<Card> theseCards = new LinkedList<Card>();
-        for(int i = 0; i < dasGiverCards.length; i++){
-            theseCards.addLast(dasGiverCards[i]);
+
+        for(int i = 0; i < dasGiverCards.length; i++) {
+            //Draw a material card
+            drawMaterialCard(dasGiverCards[i]);
         }
 
-        //Use LinkedList as a queue, popping 3 off at a time
-        //to add to the horizontal layout of the next method
-        while(theseCards.size() > 0){
+//        //Move the Array to a LinkedList to make it easier
+//        //to work with
+//        LinkedList<Card> theseCards = new LinkedList<Card>();
+//        for(int i = 0; i < dasGiverCards.length; i++){
+//            theseCards.addLast(dasGiverCards[i]);
+//        }
 
-            //Check for if there is 2 cards left
-            if(theseCards.size() == 2){
-                Card[] threeCards = new Card[2];
-                threeCards[0] = theseCards.removeFirst();
-                threeCards[1] = theseCards.removeFirst();
-
-                drawCards(threeCards);
-                break;
-            }
-
-            //Check for if there is 2 cards left
-            if(theseCards.size() == 1){
-                Card[] threeCards = new Card[1];
-                threeCards[0] = theseCards.removeFirst();
-
-                drawCards(threeCards);
-                break;
-            }
-
-            Card[] threeCards = new Card[3];
-            threeCards[0] = theseCards.removeFirst();
-            threeCards[1] = theseCards.removeFirst();
-            threeCards[2] = theseCards.removeFirst();
-
-            drawCards(threeCards);
-        }
+//        //Use LinkedList as a queue, popping 3 off at a time
+//        //to add to the horizontal layout of the next method
+//        while(theseCards.size() > 0){
+//
+//            //Check for if there is 2 cards left
+//            if(theseCards.size() == 2){
+//                Card[] threeCards = new Card[2];
+//                threeCards[0] = theseCards.removeFirst();
+//                threeCards[1] = theseCards.removeFirst();
+//
+//                drawCards(threeCards);
+//                break;
+//            }
+//
+//            //Check for if there is 2 cards left
+//            if(theseCards.size() == 1){
+//                Card[] threeCards = new Card[1];
+//                threeCards[0] = theseCards.removeFirst();
+//
+//                drawCards(threeCards);
+//                break;
+//            }
+//
+//            Card[] threeCards = new Card[3];
+//            threeCards[0] = theseCards.removeFirst();
+//            threeCards[1] = theseCards.removeFirst();
+//            threeCards[2] = theseCards.removeFirst();
+//
+//            drawCards(threeCards);
+//        }
 
 
 //        for(int i = 0; i < dasGiverCards.length; i+=3) {
@@ -158,44 +169,103 @@ public class SingleGiverActivity extends Activity {
         dasGiverCards = readCard.getCardsFromGiver(dasGiver);
     }
 
-    //Draw the cards to the screen
-    private void drawCards(Card cards[]){
-        //Get the main vertical layout
-        LinearLayout mainVertLayout = (LinearLayout)findViewById(R.id.mainVertThisGiver);
-
-        //Create a new horizontal layout
-        LinearLayout newHorLayout = new LinearLayout(this);
-        newHorLayout.setOrientation(LinearLayout.HORIZONTAL);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-
-        //Load up the front of the card as the 'backgroud' of the tile
-        for(int i = 0; i < cards.length; i++){
-            //Check that we have a front image of the card first
-            String frontPath = cards[i].getCardFrontImg();
-            if(frontPath == "" || frontPath == null){
-                ImageView ivFiller = new ImageView(this);
-                ivFiller.setImageResource(R.drawable.greybox);
-                ivFiller.setLayoutParams(new ViewGroup.LayoutParams(
-                        tileX, tileY
-                ));
-                newHorLayout.addView(ivFiller);
-            }
-            else {
-                File file = new File(cards[i].getCardFrontImg());
-                ImageView bg = new ImageView(this);
-                bg.setLayoutParams(new ViewGroup.LayoutParams(tileX, tileY));
-                newHorLayout.addView(bg);
-                loadPic(file.getAbsolutePath(), bg);
-            }
+    //Draw material cards to the screen
+    private void drawMaterialCard(Card thisCard){
+        //Get the side to draw on
+        LinearLayout ll;
+        if(drawLeftSide){
+            ll = (LinearLayout)findViewById(R.id.llVertLeft);
+        }else{
+            ll = (LinearLayout)findViewById(R.id.llVertRight);
         }
 
+        //Build the CardView
+        CardView cv = new CardView(this);
+        CardView.LayoutParams cvLayoutParams = new CardView.LayoutParams(
+                CardView.LayoutParams.MATCH_PARENT,
+                toDp(150)
+        );
+        cv.setLayoutParams(cvLayoutParams);
 
-        //Add the horizonal layout to the main vertical layout
-        mainVertLayout.addView(newHorLayout, layoutParams);
+        //Add the background image to the card
+        ImageView bgImg = new ImageView(this);
+        bgImg.setLayoutParams(new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                toDp(230),
+                Gravity.CENTER
+        ));
+        cv.addView(bgImg);
+        loadPic(thisCard.getCardFrontImg(), bgImg);
+
+        //Add the overlay ImageView
+        ImageView overlayImg = new ImageView(this);
+        overlayImg.setImageResource(R.color.primary_text);
+        overlayImg.setLayoutParams(new FrameLayout.LayoutParams(
+                toDp(175),
+                toDp(150)
+        ));
+        overlayImg.setPadding(0, toDp(75), 0, 0);
+        cv.addView(overlayImg);
+
+        //Add the Occasion Text
+        TextView occText = new TextView(this);
+        occText.setLayoutParams(new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT
+        ));
+        occText.setPadding(toDp(16), toDp(75), 0, 0);
+        occText.setTextSize(20F);
+        occText.setText(thisCard.getOccasion());
+        cv.addView(occText);
+
+        ll.addView(cv);
+
+
+        //Change the size to draw
+        if(drawLeftSide)
+            drawLeftSide = false;
+        else
+            drawLeftSide = true;
     }
+
+    //Draw the cards to the screen
+//    private void drawCards(Card cards[]){
+//        //Get the main vertical layout
+//        LinearLayout mainVertLayout = (LinearLayout)findViewById(R.id.mainVertThisGiver);
+//
+//        //Create a new horizontal layout
+//        LinearLayout newHorLayout = new LinearLayout(this);
+//        newHorLayout.setOrientation(LinearLayout.HORIZONTAL);
+//        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+//                LinearLayout.LayoutParams.MATCH_PARENT,
+//                LinearLayout.LayoutParams.WRAP_CONTENT
+//        );
+//
+//        //Load up the front of the card as the 'backgroud' of the tile
+//        for(int i = 0; i < cards.length; i++){
+//            //Check that we have a front image of the card first
+//            String frontPath = cards[i].getCardFrontImg();
+//            if(frontPath == "" || frontPath == null){
+//                ImageView ivFiller = new ImageView(this);
+//                ivFiller.setImageResource(R.drawable.greybox);
+//                ivFiller.setLayoutParams(new ViewGroup.LayoutParams(
+//                        tileX, tileY
+//                ));
+//                newHorLayout.addView(ivFiller);
+//            }
+//            else {
+//                File file = new File(cards[i].getCardFrontImg());
+//                ImageView bg = new ImageView(this);
+//                bg.setLayoutParams(new ViewGroup.LayoutParams(tileX, tileY));
+//                newHorLayout.addView(bg);
+//                loadPic(file.getAbsolutePath(), bg);
+//            }
+//        }
+//
+//
+//        //Add the horizonal layout to the main vertical layout
+//        mainVertLayout.addView(newHorLayout, layoutParams);
+//    }
 
     //No Cards
     private void drawNothing(){
@@ -208,7 +278,7 @@ public class SingleGiverActivity extends Activity {
         tv.setGravity(Gravity.CENTER_HORIZONTAL);
 
         //Add the textview to the screen
-        LinearLayout ll = (LinearLayout)findViewById(R.id.mainVertThisGiver);
+        LinearLayout ll = (LinearLayout)findViewById(R.id.llVertLeft);
         ll.addView(tv);
     }
 
@@ -233,4 +303,10 @@ public class SingleGiverActivity extends Activity {
         Bitmap bitmap = BitmapFactory.decodeFile(photoPath, bmOptions);
         mImageView.setImageBitmap(bitmap);
     }
+
+    //Method to convert a dp value into pixels
+    private int toDp(int px){
+        return (int)  (px * getResources().getDisplayMetrics().density);
+    }
+
 }
