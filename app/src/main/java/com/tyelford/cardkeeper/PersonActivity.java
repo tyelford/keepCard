@@ -279,6 +279,5 @@ public class PersonActivity extends Activity {
         Intent intent = new Intent(this, SingleGiverActivity.class);
         intent.putExtra("clickedGiver", dasGiver);
         startActivity(intent);
-
     }
 }

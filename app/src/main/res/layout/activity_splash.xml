@@ -23,7 +23,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="15dp"
         android:onClick="loadNewCard"
-        />
+        android:textColor="#212121" />
 
     <Button
         android:layout_width="277dp"
@@ -33,7 +33,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="15dp"
         android:onClick="loadNewOccasion"
-        />
+        android:textColor="#212121" />
 
     <Button
         android:layout_width="277dp"
@@ -42,7 +42,8 @@
         android:id="@+id/button_my_givers"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="15dp"
-        android:onClick="loadPersons"/>
+        android:onClick="loadPersons"
+        android:textColor="#212121" />
 
     <Button
         android:layout_width="277dp"
@@ -51,7 +52,8 @@
         android:id="@+id/button_my_occasions"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="15dp"
-        android:onClick="loadOccasions"/>
+        android:onClick="loadOccasions"
+        android:textColor="#212121" />
 
 
 

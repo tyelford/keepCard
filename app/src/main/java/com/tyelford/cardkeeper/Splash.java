@@ -76,9 +76,11 @@ public class Splash extends Activity {
     }
 
     public void deleteDatabase(View view){
-        CardDBHelper deleteDB = new CardDBHelper(this);
-        deleteDB.deleteDB();
-        Toast.makeText(this, "You have deleted all database records", Toast.LENGTH_LONG).show();
+//        CardDBHelper deleteDB = new CardDBHelper(this);
+//        deleteDB.deleteDB();
+//        Toast.makeText(this, "You have deleted all database records", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, CardTest.class);
+        startActivity(intent);
     }
 
 }

@@ -1,0 +1,166 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.tyelford.cardkeeper.CardTest">
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        card_view:cardCornerRadius="2dp">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/front"
+            android:layout_gravity="center|right">
+        </ImageView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="28th Birthday"
+            android:textSize="30dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="20dp">
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$100 cash"
+            android:textSize="20dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="57dp">
+        </TextView>
+
+        <TextView
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="Awesome Party, went out for a big night of partying with everyone"
+            android:textSize="15dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="85dp">
+        </TextView>
+
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view2"
+        android:layout_gravity="center"
+        android:layout_width="160dp"
+        android:layout_height="150dp"
+        card_view:cardCornerRadius="2dp"
+        android:layout_centerVertical="true"
+        android:layout_alignTop="@+id/card_view3"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:layout_width="230dp"
+            android:layout_height="230dp"
+            android:src="@drawable/front"
+            android:layout_gravity="center">
+        </ImageView>
+
+        <ImageView
+            android:layout_width="175dp"
+            android:layout_height="150dp"
+            android:src="@color/primary_text"
+            android:paddingTop="75dp">
+        </ImageView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="28th Birthday"
+            android:textSize="20dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="75dp">
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$100 cash"
+            android:textSize="13dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="100dp">
+        </TextView>
+
+        <TextView
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:text="Awesome Party, had lots of fun"
+            android:textSize="10dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="120dp">
+        </TextView>
+
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view3"
+        android:layout_gravity="center"
+        android:layout_width="160dp"
+        android:layout_height="195dp"
+        card_view:cardCornerRadius="2dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:paddingTop="45dp"
+        >
+
+        <ImageView
+            android:layout_width="230dp"
+            android:layout_height="230dp"
+            android:src="@drawable/front"
+            android:layout_gravity="center|bottom">
+        </ImageView>
+
+        <ImageView
+            android:layout_width="175dp"
+            android:layout_height="195dp"
+            android:src="@color/primary_text"
+            android:paddingTop="75dp">
+        </ImageView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="28th Birthday"
+            android:textSize="20dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="75dp">
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$100 cash"
+            android:textSize="13dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="100dp">
+        </TextView>
+
+        <TextView
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:text="Awesome Party, had lots of fun, this is really really really long note just to see what happens when someone types a really really really really long note"
+            android:textSize="10dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="120dp">
+        </TextView>
+
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

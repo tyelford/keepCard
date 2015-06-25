@@ -94,6 +94,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.tyelford.cardkeeper.PersonActivity" />
         </activity>
+        <activity
+            android:name=".CardTest"
+            android:label="@string/title_activity_card_test"
+            android:parentActivityName=".Splash" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.tyelford.cardkeeper.Splash" />
+        </activity>
     </application>
 
 </manifest>
