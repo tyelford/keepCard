@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public class CardDBHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "CardDB.db";
 
     public CardDBHelper(Context context){
@@ -167,7 +167,7 @@ public class CardDBHelper extends SQLiteOpenHelper {
             card.setCardInLeftImg(cursor.getString(3));
             card.setCardInRightImg(cursor.getString(4));
             card.setPresentImg(cursor.getString(5));
-            card.setPresentComments(cursor.getString(6));
+            card.setCardComments(cursor.getString(6));
             card.setOccasion(cursor.getString(7));
             card.setAddGivers(cursor.getString(8));
             cards.add(card);
@@ -189,7 +189,7 @@ public class CardDBHelper extends SQLiteOpenHelper {
         values.put(CardTable.COLUMN_NAME_P_IN_LEFT, card.getCardInLeftImg());
         values.put(CardTable.COLUMN_NAME_P_IN_RIGHT, card.getCardInRightImg());
         values.put(CardTable.COLUMN_NAME_P_PRES, card.getPresentImg());
-        values.put(CardTable.COLUMN_NAME_C_PRES, "");
+        values.put(CardTable.COLUMN_NAME_C_CARD, card.getCardComments());
         values.put(CardTable.COLUMN_NAME_OCC_ID, card.getOccasion());
         values.put(CardTable.COLUMN_NAME_ADD_GIVERS, card.getAddGivers());
 
@@ -235,7 +235,7 @@ public class CardDBHelper extends SQLiteOpenHelper {
             CardTable.COLUMN_NAME_P_IN_LEFT + TEXT_TYPE + COMMA_SEP +
             CardTable.COLUMN_NAME_P_IN_RIGHT + TEXT_TYPE + COMMA_SEP +
             CardTable.COLUMN_NAME_P_PRES + TEXT_TYPE + COMMA_SEP +
-            CardTable.COLUMN_NAME_C_PRES + TEXT_TYPE + COMMA_SEP +
+            CardTable.COLUMN_NAME_C_CARD + TEXT_TYPE + COMMA_SEP +
             CardTable.COLUMN_NAME_OCC_ID + TEXT_TYPE + COMMA_SEP +
             CardTable.COLUMN_NAME_ADD_GIVERS + TEXT_TYPE +
             " )";
@@ -248,7 +248,7 @@ public class CardDBHelper extends SQLiteOpenHelper {
             CardTable.COLUMN_NAME_P_IN_LEFT + COMMA_SEP +
             CardTable.COLUMN_NAME_P_IN_RIGHT + COMMA_SEP +
             CardTable.COLUMN_NAME_P_PRES + COMMA_SEP +
-            CardTable.COLUMN_NAME_C_PRES + COMMA_SEP +
+            CardTable.COLUMN_NAME_C_CARD + COMMA_SEP +
             CardTable.COLUMN_NAME_OCC_ID + COMMA_SEP +
             CardTable.COLUMN_NAME_ADD_GIVERS +
             " FROM " + CardTable.TABLE_NAME;

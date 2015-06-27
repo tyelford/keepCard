@@ -218,6 +218,24 @@ public class SingleGiverActivity extends Activity {
         occText.setText(thisCard.getOccasion());
         cv.addView(occText);
 
+        //Add the notes that are part of the card
+        String notesText = thisCard.getCardComments();
+        if(notesText == null || notesText.equals("")){
+            //No Notes to add and can be skipped
+            int k = 0;
+        }else{
+            TextView notesTv = new TextView(this);
+            notesTv.setLayoutParams(new FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.WRAP_CONTENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT
+            ));
+            notesTv.setPadding(toDp(16), toDp(85), 0, 0);
+            notesTv.setTextSize(13F);
+            notesTv.setText(notesText);
+            cv.addView(notesTv);
+        }
+
+
         ll.addView(cv);
 
 
