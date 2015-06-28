@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="CardBoxCustom" parent="android:Theme.Material.Light">
+    <style name="CardBoxCustom" parent="android:Theme.Material.Light.DarkActionBar">
         <!--Material Design theme for v21 and above-->
         <item name="android:colorPrimary">@color/primary</item>
         <item name="android:colorPrimaryDark">@color/primary_dark</item>

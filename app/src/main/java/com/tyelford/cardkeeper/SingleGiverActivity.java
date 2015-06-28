@@ -14,6 +14,7 @@ import android.view.Display;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -179,12 +180,70 @@ public class SingleGiverActivity extends Activity {
             ll = (LinearLayout)findViewById(R.id.llVertRight);
         }
 
+        //Standard Height of the CardViews
+        int standHeight = toDp(150);
+        //Add some extra height if the 'notes' section is really long
+        int extraHeight = 0;
+
+        //Create a LinearLayout for the TextViews
+        //Have to create this first to get the 'added' height of the CardView
+        LinearLayout textLL = new LinearLayout(this);
+        LinearLayout.LayoutParams textLLParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+        );
+        textLL.setPadding(0, toDp(75), 0, 0);
+        textLL.setOrientation(LinearLayout.VERTICAL);
+        textLL.setLayoutParams(textLLParams);
+
+        //Add the Occasion Text
+        TextView occText = new TextView(this);
+        occText.setLayoutParams(new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT
+        ));
+        occText.setPadding(toDp(16), 0, 0, 0);
+        occText.setTextSize(20F);
+        occText.setText(thisCard.getOccasion());
+        textLL.addView(occText);
+
+        //Add the notes that are part of the card
+        String notesText = thisCard.getCardComments();
+        if(notesText == null || notesText.equals("")){
+            //No Notes to add and can be skipped
+            extraHeight = 0;
+        }else{
+            //Find any extra height for the card view
+            char[] notesChar = notesText.toCharArray();
+
+            if(notesChar.length > 35 && notesChar.length <= 70){
+                extraHeight += toDp(45);
+            }
+            if(notesChar.length > 70){
+                extraHeight += toDp(45);
+                notesText.substring(0, 67);
+                notesText += "...";
+            }
+
+            TextView notesTv = new TextView(this);
+            notesTv.setLayoutParams(new FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.WRAP_CONTENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT
+            ));
+            notesTv.setPadding(toDp(16), 0, 0, 0);
+            notesTv.setTextSize(13F);
+            notesTv.setText(notesText);
+            textLL.addView(notesTv);
+        }
+
+
         //Build the CardView
         CardView cv = new CardView(this);
-        CardView.LayoutParams cvLayoutParams = new CardView.LayoutParams(
+        FrameLayout.LayoutParams cvLayoutParams = new FrameLayout.LayoutParams(
                 CardView.LayoutParams.MATCH_PARENT,
-                toDp(150)
+                standHeight + extraHeight
         );
+        cvLayoutParams.setMargins(0, toDp(10), 0, 0);
         cv.setLayoutParams(cvLayoutParams);
 
         //Add the background image to the card
@@ -202,41 +261,23 @@ public class SingleGiverActivity extends Activity {
         overlayImg.setImageResource(R.color.primary_text);
         overlayImg.setLayoutParams(new FrameLayout.LayoutParams(
                 toDp(175),
-                toDp(150)
+                standHeight + extraHeight
         ));
         overlayImg.setPadding(0, toDp(75), 0, 0);
         cv.addView(overlayImg);
 
-        //Add the Occasion Text
-        TextView occText = new TextView(this);
-        occText.setLayoutParams(new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.WRAP_CONTENT,
-                FrameLayout.LayoutParams.WRAP_CONTENT
-        ));
-        occText.setPadding(toDp(16), toDp(75), 0, 0);
-        occText.setTextSize(20F);
-        occText.setText(thisCard.getOccasion());
-        cv.addView(occText);
-
-        //Add the notes that are part of the card
-        String notesText = thisCard.getCardComments();
-        if(notesText == null || notesText.equals("")){
-            //No Notes to add and can be skipped
-            int k = 0;
-        }else{
-            TextView notesTv = new TextView(this);
-            notesTv.setLayoutParams(new FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.WRAP_CONTENT,
-                    FrameLayout.LayoutParams.WRAP_CONTENT
-            ));
-            notesTv.setPadding(toDp(16), toDp(85), 0, 0);
-            notesTv.setTextSize(13F);
-            notesTv.setText(notesText);
-            cv.addView(notesTv);
-        }
-
-
+        cv.addView(textLL);
         ll.addView(cv);
+
+        //Add a spacer
+        View view = new View(this);
+        ViewGroup.LayoutParams vglp = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                toDp(8)
+        );
+        view.setLayoutParams(vglp);
+        ll.addView(view);
+
 
 
         //Change the size to draw
