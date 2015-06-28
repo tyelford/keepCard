@@ -258,7 +258,7 @@ public class SingleGiverActivity extends Activity {
 
         //Add the overlay ImageView
         ImageView overlayImg = new ImageView(this);
-        overlayImg.setImageResource(R.color.primary_text);
+        overlayImg.setImageResource(R.color.overlay);
         overlayImg.setLayoutParams(new FrameLayout.LayoutParams(
                 toDp(175),
                 standHeight + extraHeight
