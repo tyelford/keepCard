@@ -14,6 +14,7 @@ import android.view.Display;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -171,7 +172,7 @@ public class SingleGiverActivity extends Activity {
     }
 
     //Draw material cards to the screen
-    private void drawMaterialCard(Card thisCard){
+    private void drawMaterialCard(final Card thisCard){
         //Get the side to draw on
         LinearLayout ll;
         if(drawLeftSide){
@@ -268,6 +269,36 @@ public class SingleGiverActivity extends Activity {
 
         cv.addView(textLL);
         ll.addView(cv);
+        //Make the cardView clickable
+        cv.setClickable(true);
+
+        cv.setOnTouchListener(new CardView.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                int bgColour = view.getDrawingCacheBackgroundColor();
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    CardView clickedCW = (CardView) view;
+                    clickedCW.setBackgroundColor(0xFFC2BEBF);
+                    return true;
+                }
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    //Load up the next activity for this card
+                    CardView clickedCW = (CardView) view;
+                    clickedCW.setBackgroundColor(bgColour);
+                    //Load up the SingleCardActivity
+                    String cardGiver = thisCard.getCardID();
+                    loadCardActivity(cardGiver);
+                 }
+                if (motionEvent.getAction() == MotionEvent.ACTION_CANCEL) {
+                    CardView clickedCW = (CardView) view;
+                    clickedCW.setBackgroundColor(bgColour);
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
 
         //Add a spacer
         View view = new View(this);
@@ -368,4 +399,15 @@ public class SingleGiverActivity extends Activity {
         return (int)  (px * getResources().getDisplayMetrics().density);
     }
 
+    private void loadCardActivity(String cardID){
+        Intent intent = new Intent(this, SingleCardActivity.class);
+        intent.putExtra("CardID", cardID);
+        startActivityForResult(intent, 100);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode == 100 && resultCode == RESULT_OK){
+            //Start the Acitivty Drawing procedure again
+        }
+    }
 }

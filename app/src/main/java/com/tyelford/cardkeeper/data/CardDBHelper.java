@@ -63,6 +63,7 @@ public class CardDBHelper extends SQLiteOpenHelper {
             throw new NoGiversException("NoGiversAreInTheDatabase");
 
         s = thisUniqueGivers.toArray(s);
+        db.close();
         return s;
     }
 
@@ -87,6 +88,7 @@ public class CardDBHelper extends SQLiteOpenHelper {
             throw new NoOccasionException("NoOccasionsInTheDatabase");
 
         s = thisOccasions.toArray(s);
+        db.close();
         return s;
 
     }
@@ -118,6 +120,7 @@ public class CardDBHelper extends SQLiteOpenHelper {
 
         String[] s = new String[photos.size()];
         s = photos.toArray(s);
+        db.close();
         return s;
     }
 
@@ -144,6 +147,7 @@ public class CardDBHelper extends SQLiteOpenHelper {
         card.setOccasion(cursor.getString(7));
         card.setAddGivers(cursor.getString(8));
 
+        db.close();
         return card;
 
     }
@@ -175,6 +179,7 @@ public class CardDBHelper extends SQLiteOpenHelper {
 
         Card[] myCards = new Card[cards.size()];
         myCards = cards.toArray(myCards);
+        db.close();
         return myCards;
     }
 

@@ -29,7 +29,6 @@ public class Card {
     public Card(){
     }
 
-
     //Full constructor
     public Card(String cardID, String cardGiver, String cardFrontImg, String cardInLeftImg, String cardInRightImg, String presentImg, String presentComments, String occasion, String cardComments, String addGivers){
         this.cardGiver = cardGiver;

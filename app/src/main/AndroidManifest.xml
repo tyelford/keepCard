@@ -102,6 +102,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.tyelford.cardkeeper.Splash" />
         </activity>
+        <activity
+            android:name=".SingleCardActivity"
+            android:label="@string/title_activity_single_card"
+            android:parentActivityName=".SingleGiverActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.tyelford.cardkeeper.SingleGiverActivity" />
+        </activity>
     </application>
 
 </manifest>

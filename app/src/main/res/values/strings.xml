@@ -39,4 +39,5 @@
     <string name="title_activity_occasions">OccasionsActivity</string>
     <string name="title_activity_single_giver">SingleGiverActivity</string>
     <string name="title_activity_card_test">Cards from Tyson</string>
+    <string name="title_activity_single_card">SingleCardActivity</string>
 </resources>
